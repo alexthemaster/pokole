@@ -1,0 +1,20 @@
+{
+    "rethink": {
+        "host": "localhost",
+        "port": 28015,
+        "user": "admin",
+        "password": "",
+        "database": ""
+    },
+    "server": {
+        "port": 80,
+        "backendPort": 8080 
+    },
+    "bcrypt": {
+        "salt": 10
+    },
+    "frontURL": "http://localhost",
+    "backURL": "http://localhost:8080",
+    "shortLength": 5,
+    "jwtSecret": "JWTSecret"
+}

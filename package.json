@@ -1,0 +1,33 @@
+{
+  "name": "pokole",
+  "version": "0.0.1",
+  "description": "A simple URL shortener made using NodeJS and RethinkDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pokole/pokole.git"
+  },
+  "keywords": [
+    "pokole",
+    "url",
+    "shortener",
+    "bitly",
+    "tinyurl"
+  ],
+  "author": "Kovacs Alex <alex@atm.moe>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pokole/pokole/issues"
+  },
+  "homepage": "https://github.com/pokole/pokole#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "fs-extra": "^8.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "polka": "^0.5.2",
+    "rethinkdb-ts": "^2.4.0-rc.16"
+  }
+}
