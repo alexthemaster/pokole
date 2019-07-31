@@ -87,8 +87,8 @@ const middleware = {
     // Easy way to redirect
     redirect: function (req, res, next) {
         res.redirect = function (url) {
-            res.writeHead(302, { "Location": url });
-            return res.end();
+            this.writeHead(302, { "Location": url });
+            return this.end();
         }
 
         return next();
