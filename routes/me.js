@@ -17,7 +17,8 @@ router.get('/links', async (req, res) => {
     data.forEach(obj => {
         const temp = {
             longURL: obj.long,
-            shortURL: `${frontURL}/${obj.short}`
+            shortURL: `${frontURL}/${obj.short}`,
+            clicks: obj.clicks || 0
         };
         array.push(temp)
     });

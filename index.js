@@ -44,9 +44,10 @@ async function init() {
         .use(middleware.redirect)
         .get('/:short', async (req, res) => {
             const { short } = req.params;
-            const data = await r.table('links').filter({ short }).run();
-            if (!data[0]) return res.redirect('/');
-            else return res.redirect(data[0].long);
+            const [data] = await r.table('links').filter({ short }).run();
+            if (!data) return res.redirect('/');
+            else res.redirect(data.long);
+            return await r.table('links').get(data.id).update({ clicks: r.row('clicks').add(1).default(0) }).run();
         })
         .listen(port, err => {
             if (err) exit(strings.SERVER_ERROR(err));
