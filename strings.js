@@ -19,6 +19,7 @@ module.exports = {
     NO_USERNAME: 'Username not provided.',
     NO_PASSWORD: 'Password not provided.',
     NO_EMAIL: 'E-mail not provided.',
+    VALID_TOKEN: 'Please provide a valid token! (login)',
     INVALID_EMAIL: 'Invalid e-mail provided.',
     TAKEN_USERNAME: 'This username is taken.',
     TAKEN_EMAIL: 'This e-mail is taken.',

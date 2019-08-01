@@ -1,11 +1,12 @@
 const { r } = require('rethinkdb-ts');
 const polka = require('polka');
 const fs = require('fs-extra');
+const jwt = require('jsonwebtoken');
 const strings = require('./strings');
 
 async function init() {
     if (!await fs.pathExists('./data/config.json')) { console.log(strings.NO_CONFIG); process.exit(-1) };
-    const { rethink, server: { port, backendPort }, jwtSecret: jwt } = require('./data/config.json');
+    const { rethink, server: { port, backendPort }, jwtSecret } = require('./data/config.json');
 
     const db = rethink.database || 'pokole';
 
@@ -28,7 +29,7 @@ async function init() {
     await r.branch(r.tableList().contains('links'), null, r.tableCreate('links')).run().catch(err => exit(strings.TABLE_CREATE_ERROR('links')));
 
 
-    if (!jwt) exit(strings.NO_JWT);
+    if (!jwtSecret) exit(strings.NO_JWT);
 
     // Polka Middleware: Attach the RethinkDB instance to all the requests
     const attachRethink = (req, res, next) => {
@@ -55,6 +56,7 @@ async function init() {
     // Backend
     polka()
         .use(attachRethink)
+        .use(middleware.authentificate)
         .use(middleware.status)
         .use(middleware.redirect)
         .use(middleware.json)
@@ -101,6 +103,28 @@ const middleware = {
         res.json = function (data) {
             this.writeHead(200, { "Content-Type": "application/json" });
             return this.end(data);
+        }
+
+        return next();
+    },
+
+    authentificate: function (req, res, next) {
+        req.auth = async function () {
+            let auth = req.headers['authorization'];
+
+            // Authentification
+            if (!auth || !auth.includes('Bearer')) return res.status(403).json(error(strings.VALID_TOKEN));
+            auth = auth.substring(7);
+
+            let verified;
+            try {
+                verified = jwt.verify(auth, require('./data/config').jwtSecret);
+            } catch (err) {
+                res.status(403).json(strings.JWT[err.name](err))
+                return null;
+            }
+
+            return verified.data;
         }
 
         return next();

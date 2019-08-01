@@ -1,29 +1,18 @@
 const polka = require('polka');
-const jwt = require('jsonwebtoken');
 const strings = require('../strings');
 
 const URLRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
 
-const { JWT } = require('../strings');
-const { jwtSecret, shortLength } = require('../data/config');
+const { shortLength } = require('../data/config');
 
 const router = polka();
 
 router.post('/', async (req, res) => {
     const url = req.headers['url'];
-    let auth = req.headers['authorization'];
     const custom = req.headers['custom'];
 
-    // Authentification
-    if (!auth || !auth.includes('Bearer')) return res.status(403).json(error('Please provide a valid token! (login)'));
-    auth = auth.substring(7);
-
-    let verified;
-    try {
-        verified = jwt.verify(auth, jwtSecret);
-    } catch (err) {
-        return res.status(403).json(JWT[err.name](err))
-    }
+    const id = await req.auth();
+    if (!id) return;
 
     // If the URL is not provided, json the request
     if (!url) return res.status(403).json(error(strings.NO_URL));
@@ -34,7 +23,7 @@ router.post('/', async (req, res) => {
     // Do this if there is a custom desired short URL 
     if (custom) {
         if (await req.db.table('links').filter({ short: custom }).count().run()) return res.status(403).json(error(strings.URL_IN_USE));
-        return await insertURL(res, req.db, url, custom, verified.data);
+        return await insertURL(res, req.db, url, custom, id);
     }
 
     let short = generateString(shortLength);
@@ -42,7 +31,7 @@ router.post('/', async (req, res) => {
     // Small fail-safe
     if (await req.db.table('links').filter({ short }).count().run()) short = generateString(shortLength);
 
-    return await insertURL(res, req.db, url, short, verified.data);
+    return await insertURL(res, req.db, url, short, id);
 })
 
 async function insertURL(res, db, long, short, id) {
