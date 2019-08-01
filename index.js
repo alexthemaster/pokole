@@ -57,6 +57,7 @@ async function init() {
         .use(attachRethink)
         .use(middleware.status)
         .use(middleware.redirect)
+        .use(middleware.json)
         .use('/register', require('./routes/register'))
         .use('/login', require('./routes/login'))
         .use('/shorten', require('./routes/shorten'))
@@ -89,6 +90,16 @@ const middleware = {
         res.redirect = function (url) {
             this.writeHead(302, { "Location": url });
             return this.end();
+        }
+
+        return next();
+    },
+
+    // Return a JSON response
+    json: function (req, res, next) {
+        res.json = function (data) {
+            this.writeHead(200, { "Content-Type": "application/json" });
+            return this.end(data);
         }
 
         return next();
