@@ -1,3 +1,5 @@
+const { frontURL } = require('./data/config');
+
 module.exports = {
     NO_CONFIG: 'The configuration file cannot be found, exiting.',
     NO_JWT: '[JWT] Please provide a JWT Secret!',
@@ -30,7 +32,7 @@ module.exports = {
     NO_URL: 'No URL to shorten provided.',
     INVALID_URL: 'The provided URL is invalid.',
     URL_IN_USE: 'This short URL is currently in use.',
-    SUCCESS_ADD_URL: (url) => `The ${url} short URL has been added!`,
+    SUCCESS_ADD_URL: (url) => JSON.stringify({ succes: `The ${url} short URL has been added!`, URL: `${frontURL}/${url}` }),
 
     JWT: {
         TokenExpiredError: () => 'The token is expired',

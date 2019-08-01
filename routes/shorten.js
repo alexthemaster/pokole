@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 
 async function insertURL(res, db, long, short, id) {
     const inserted = await db.table('links').insert({ long, short, user_id: id }).run();
-    if (inserted.inserted) return res.json(success(strings.SUCCESS_ADD_URL(short)));
+    if (inserted.inserted) return res.json(strings.SUCCESS_ADD_URL(short));
     else return res.status(500).json(error(strings.SOMETHING_WENT_WRONG));
 }
 
@@ -52,6 +52,5 @@ function generateString(length = 5) {
 }
 
 const error = (text) => JSON.stringify({ error: text });
-const success = (text) => JSON.stringify({ success: text });
 
 module.exports = router;
