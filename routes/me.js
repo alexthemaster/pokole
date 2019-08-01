@@ -9,14 +9,14 @@ router.get('/links', async (req, res) => {
     let auth = req.headers['authorization'];
 
     // Authentification
-    if (!auth || !auth.includes('Bearer')) return res.status(403).end(error('Please provide a valid token! (login)'));
+    if (!auth || !auth.includes('Bearer')) return res.status(403).json(error('Please provide a valid token! (login)'));
     auth = auth.substring(7);
 
     let verified;
     try {
         verified = jwt.verify(auth, jwtSecret);
     } catch (err) {
-        return res.status(403).end(JWT[err.name](err))
+        return res.status(403).json(JWT[err.name](err))
     }
 
     // Get all the shortened URL's created by this user
