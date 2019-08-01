@@ -60,6 +60,7 @@ async function init() {
         .use(middleware.json)
         .use('/register', require('./routes/register'))
         .use('/login', require('./routes/login'))
+        .use('/me', require('./routes/me'))
         .use('/shorten', require('./routes/shorten'))
         .listen(backendPort, err => {
             if (err) exit(strings.SERVER_ERROR(err));
