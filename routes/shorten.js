@@ -15,25 +15,25 @@ router.post('/', async (req, res) => {
     const custom = req.headers['custom'];
 
     // Authentification
-    if (!auth || !auth.includes('Bearer')) return res.status(403).end(error('Please provide a valid token! (login)'));
+    if (!auth || !auth.includes('Bearer')) return res.status(403).json(error('Please provide a valid token! (login)'));
     auth = auth.substring(7);
 
     let verified;
     try {
         verified = jwt.verify(auth, jwtSecret);
     } catch (err) {
-        return res.status(403).end(JWT[err.name](err))
+        return res.status(403).json(JWT[err.name](err))
     }
 
-    // If the URL is not provided, end the request
-    if (!url) return res.status(403).end(error(strings.NO_URL));
+    // If the URL is not provided, json the request
+    if (!url) return res.status(403).json(error(strings.NO_URL));
 
     // Check if the provided URL is valid
-    if (!URLRegex.test(url)) return res.status(403).end(error(strings.INVALID_URL));
+    if (!URLRegex.test(url)) return res.status(403).json(error(strings.INVALID_URL));
 
     // Do this if there is a custom desired short URL 
     if (custom) {
-        if (await req.db.table('links').filter({ short: custom }).count().run()) return res.status(403).end(error(strings.URL_IN_USE));
+        if (await req.db.table('links').filter({ short: custom }).count().run()) return res.status(403).json(error(strings.URL_IN_USE));
         return await insertURL(res, req.db, url, custom, verified.data);
     }
 
@@ -47,15 +47,15 @@ router.post('/', async (req, res) => {
 
 async function insertURL(res, db, long, short, id) {
     const inserted = await db.table('links').insert({ long, short, user_id: id }).run();
-    if (inserted.inserted) return res.end(success(strings.SUCCESS_ADD_URL(short)));
-    else return res.status(500).end(error(strings.SOMETHING_WENT_WRONG));
+    if (inserted.inserted) return res.json(success(strings.SUCCESS_ADD_URL(short)));
+    else return res.status(500).json(error(strings.SOMETHING_WENT_WRONG));
 }
 
 function generateString(length = 5) {
     const ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split('');
     let final = '';
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < length; i++) {
         final += ABC[Math.floor(Math.random() * ABC.length)]
     }
 
