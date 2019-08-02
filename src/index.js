@@ -2,11 +2,11 @@ const { r } = require('rethinkdb-ts');
 const polka = require('polka');
 const fs = require('fs-extra');
 const jwt = require('jsonwebtoken');
-const strings = require('./strings');
+const strings = require(`${__dirname}/strings`);
 
 async function init() {
-    if (!await fs.pathExists('./data/config.json')) { console.log(strings.NO_CONFIG); process.exit(-1) };
-    const { rethink, server: { port, backendPort }, jwtSecret } = require('./data/config.json');
+    if (!await fs.pathExists(`${__dirname}/data/config.json`)) { console.log(strings.NO_CONFIG); process.exit(-1) };
+    const { rethink, server: { port, backendPort }, jwtSecret } = require(`${__dirname}/data/config.json`);
 
     const db = rethink.database || 'pokole';
 
@@ -61,10 +61,10 @@ async function init() {
         .use(middleware.status)
         .use(middleware.redirect)
         .use(middleware.json)
-        .use('/register', require('./routes/register'))
-        .use('/login', require('./routes/login'))
-        .use('/me', require('./routes/me'))
-        .use('/shorten', require('./routes/shorten'))
+        .use('/register', require(`${__dirname}/routes/register`))
+        .use('/login', require(`${__dirname}/routes/login`))
+        .use('/me', require(`${__dirname}/routes/me`))
+        .use('/shorten', require(`${__dirname}/routes/shorten`))
         .listen(backendPort, err => {
             if (err) exit(strings.SERVER_ERROR(err));
             console.log(strings.SERVER_BACKEND_START(backendPort));
@@ -119,7 +119,7 @@ const middleware = {
 
             let verified;
             try {
-                verified = jwt.verify(auth, require('./data/config').jwtSecret);
+                verified = jwt.verify(auth, require(`${__dirname}/data/config`).jwtSecret);
             } catch (err) {
                 res.status(403).json(strings.JWT[err.name](err))
                 return null;
