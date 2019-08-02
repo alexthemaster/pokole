@@ -29,6 +29,7 @@ module.exports = {
     SUCCESS_REGISTER: 'Succesfully registered, you can now login!',
     SOMETHING_WENT_WRONG: 'Something went wrong, please try again later.',
 
+    // URL
     NO_URL: 'No URL to shorten provided.',
     INVALID_URL: 'The provided URL is invalid.',
     URL_IN_USE: 'This short URL is currently in use.',
@@ -38,5 +39,55 @@ module.exports = {
         TokenExpiredError: () => 'The token is expired',
         JsonWebTokenError: (err) => err.message,
         NotBeforeError: () => 'Thrown if current time is before the nbf claim.'
+    },
+
+    // Setup #1
+    PROMPTS: {
+        UNDERSTOOD: "Understood! Action aborted.",
+        EXISTS: "A configuration file is already present, want to proceed?",
+
+        // RethinkDB prompts
+        RETHINKDB_HOST: "What is the address your RethinkDB server is running at?",
+        RETHINKDB_PORT: "What is the port your RethinkDB server is running on?",
+        RETHINKDB_USER: "What is the user account to use with RethinkDB?",
+        RETHINKDB_PASSWORD: "What is the password of the RethinkDB user's account?",
+        RETHINKDB_DB: "What is the name of the database to use in RethinkDB? (this will be automatically created, leave it blank if you want it to default to 'Pokole')",
+    
+        // Port prompts
+        SERVER_PORT: "What is the port you want the front-end server to run on?",
+        BACK_SERVER_PORT: "What is the port you want the back-end server to run on?",
+
+        // Bcrypt salt prompt
+        BCRYPT: "Please mention the the number you want bcrypt to use as salt (if you don't know what this is, leave it to the default one)",
+
+        // URL prompts
+        URL_FRONT: "What is the URL the front-end server will run on?",
+        URL_BACK: "What is the URL the back-end server will run on?",
+
+        // Shortlink length prompt
+        SHORTLINK: "How short do you want the characters to be in the shortlink?",
+
+        // JWT secret prompt
+        JWT: "Please provide a secret for JWT (this will be used to encode the user tokens after login)"
+    },
+
+    // Setup #2
+    VALIDATION: {
+        // RethinkDB validations
+        RETHINKDB_HOST: "This is not a valid RethinkDB host address (options: localhost, IP, URL)",
+        RETHINKDB_PORT: "Please provide a valid port number",
+
+        // Port validations
+        SERVER_PORT: "Please provide a valid port number",
+        BACK_SERVER_PORT: "Please provide a valid port number",
+
+        // URL validation
+        VALID_URL: "Please provide a valid port number",
+
+        // Shortlink length validation
+        SHORTLINK: "At least a 3 character length is required for optimal use",
+
+        // JWT secret validation
+        JWT: "We recommend at least a 5 character length password to use as a JWT secret, as it is *VERY IMPORTANT*"
     }
 }

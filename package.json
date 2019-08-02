@@ -4,7 +4,8 @@
   "description": "A simple URL shortener made using NodeJS and RethinkDB",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index"
+    "start": "node src/index",
+    "setup": "node src/setup"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "fs-extra": "^8.1.0",
+    "inquirer": "^6.5.0",
     "jsonwebtoken": "^8.5.1",
     "polka": "^0.5.2",
     "rethinkdb-ts": "^2.4.0-rc.16"
