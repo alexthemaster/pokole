@@ -22,7 +22,7 @@ function setup() {
         { name: 'rethink-host', type: 'input', message: strings.PROMPTS.RETHINKDB_HOST, validate: (input) => ((URLRegex.test(input) || IPRegex.test(input) || input === 'localhost') || strings.VALIDATION.RETHINKDB_HOST), default: 'localhost' },
         { name: 'rethink-port', type: 'input', message: strings.PROMPTS.RETHINKDB_PORT, validate: (input) => PortRegex.test(input) || strings.VALIDATION.RETHINKDB_PORT, default: 28015 },
         { name: 'rethink-user', type: 'input', message: strings.PROMPTS.RETHINKDB_USER, default: 'admin' },
-        { name: 'rethink-password', type: 'password', message: strings.PROMPTS.RETHINKDB_PASSWORD },
+        { name: 'rethink-password', type: 'password', mask: true, message: strings.PROMPTS.RETHINKDB_PASSWORD },
         { name: 'rethink-db', type: 'input', message: strings.PROMPTS.RETHINKDB_DB },
 
         // Server Ports
@@ -33,14 +33,14 @@ function setup() {
         { name: 'bcrypt-salt', type: 'number', message: strings.PROMPTS.BCRYPT, default: 10 },
 
         // URLs
-        { name: 'url-front', type: 'input', message: strings.PROMPTS.URL_FRONT, validate: (input) => URLRegex.test(input) || strings.VALIDATION.VALID_URL, default: 'http://localhost' },
-        { name: 'url-back', type: 'input', message: strings.PROMPTS.URL_BACK, validate: (input) => URLRegex.test(input) || strings.VALIDATION.VALID_URL, default: 'http://localhost:8080' },
+        { name: 'url-front', type: 'input', message: strings.PROMPTS.URL_FRONT, validate: (input) => URLRegex.test(input) || input.startsWith('localhost') || strings.VALIDATION.VALID_URL, default: 'localhost' },
+        { name: 'url-back', type: 'input', message: strings.PROMPTS.URL_BACK, validate: (input) => URLRegex.test(input) || input.startsWith('localhost') || strings.VALIDATION.VALID_URL, default: 'localhost:8080' },
 
         // Shortlink length
         { name: 'length', type: 'number', message: strings.PROMPTS.SHORTLINK, validate: (input) => (input >= 3) || strings.VALIDATION.SHORTLINK, default: 5 },
         
         // JWT Secret
-        { name: 'jwt', type: 'password', message: strings.PROMPTS.JWT, validate: (input) => (input.length >= 5) || strings.VALIDATION.JWT }
+        { name: 'jwt', type: 'password', mask: true, message: strings.PROMPTS.JWT, validate: (input) => (input.length >= 5) || strings.VALIDATION.JWT }
     ]).then(inputs => {
         const config = {
             rethink: {

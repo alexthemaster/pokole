@@ -82,7 +82,7 @@ module.exports = {
         BACK_SERVER_PORT: "Please provide a valid port number",
 
         // URL validation
-        VALID_URL: "Please provide a valid port number",
+        VALID_URL: "Please provide a valid URL",
 
         // Shortlink length validation
         SHORTLINK: "At least a 3 character length is required for optimal use",
