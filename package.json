@@ -2,7 +2,7 @@
   "name": "pokole",
   "version": "0.0.1",
   "description": "A simple URL shortener made using NodeJS and RethinkDB",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
