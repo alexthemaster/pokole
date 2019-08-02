@@ -68,7 +68,11 @@ module.exports = {
         SHORTLINK: "How short do you want the characters to be in the shortlink?",
 
         // JWT secret prompt
-        JWT: "Please provide a secret for JWT (this will be used to encode the user tokens after login)"
+        JWT: "Please provide a secret for JWT (this will be used to encode the user tokens after login)",
+
+        // Configuration strings
+        CONF_WRITTEN: "Configuration file successfully written.",
+        CONF_ERROR: (err) => `We encountered a problem while writing the configuration file: ${err}`
     },
 
     // Setup #2

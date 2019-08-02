@@ -64,9 +64,9 @@ function setup() {
         };
 
         try {
-            fs.writeFile(`${__dirname}/data/config.json`, JSON.stringify(config)).then(() => console.log('Configuration file successfully written.'));
+            fs.writeFile(`${__dirname}/data/config.json`, JSON.stringify(config)).then(() => console.log(strings.PROMPTS.CONF_WRITTEN));
         } catch (err) {
-            console.error(`We encountered a problem while writing the configuration file: ${err}`);
+            console.error(strings.PROMPTS.CONF_ERROR(err));
         }
     });
 }
