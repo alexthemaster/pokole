@@ -1,7 +1,7 @@
 const { frontURL } = require('./data/config');
 
 module.exports = {
-    NO_CONFIG: 'The configuration file cannot be found, exiting.',
+    NO_CONFIG: 'The configuration file cannot be found, please run the `npm run setup` command to set it up.',
     NO_JWT: '[JWT] Please provide a JWT Secret!',
 
     // Database
