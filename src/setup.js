@@ -63,7 +63,8 @@ function setup() {
             frontURL: inputs['url-front'],
             backURL: inputs['url-back'],
             shortLength: inputs['length'],
-            jwtSecret: inputs['jwt']
+            jwtSecret: inputs['jwt'],
+            register: inputs['register']
         };
 
         try {
