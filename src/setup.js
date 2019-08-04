@@ -38,9 +38,12 @@ function setup() {
 
         // Shortlink length
         { name: 'length', type: 'number', message: strings.PROMPTS.SHORTLINK, validate: (input) => (input >= 3) || strings.VALIDATION.SHORTLINK, default: 5 },
-        
+
         // JWT Secret
-        { name: 'jwt', type: 'password', mask: true, message: strings.PROMPTS.JWT, validate: (input) => (input.length >= 5) || strings.VALIDATION.JWT }
+        { name: 'jwt', type: 'password', mask: true, message: strings.PROMPTS.JWT, validate: (input) => (input.length >= 5) || strings.VALIDATION.JWT },
+
+        // Registration
+        { name: 'register', type: 'input', message: strings.PROMPTS.REGISTER, validate: (input) => typeof input === 'boolean' || strings.VALIDATION.REGISTER, default: true }
     ]).then(inputs => {
         const config = {
             rethink: {

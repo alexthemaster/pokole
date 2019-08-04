@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const strings = require('../strings');
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const { bcrypt: { salt } } = require('../data/config');
+const { bcrypt: { salt }, register } = require('../data/config');
 
 const router = polka();
 
@@ -11,6 +11,8 @@ router.post('/', async (req, res) => {
     const email = req.headers['email'];
     const username = req.headers['username'];
     const password = req.headers['password'];
+
+    if (!register) return res.status(403).json(strings.ERROR(strings.REGISTER_DISABLED))
 
     // If one of these three is not provided, end the requests
     if (!username) return res.status(403).json(strings.ERROR(strings.NO_USERNAME));

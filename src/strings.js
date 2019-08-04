@@ -11,13 +11,13 @@ module.exports = {
     TABLE_CREATE_ERROR: (name) => `[RethinkDB] There was an error creating the ${name} table. Exiting.`,
 
     // Route returns
-    ERROR = (text) => JSON.stringify({ error: text }),
-    SUCCESS = (text) => JSON.stringify({ success: text }),
-    TOKEN = (text, time) => JSON.stringify({ token: text, expiresIn: time }),
-    ME_LINKS = (array) => JSON.stringify({ data: array, count: array.length }),
+    ERROR: (text) => JSON.stringify({ error: text }),
+    SUCCESS: (text) => JSON.stringify({ success: text }),
+    TOKEN: (text, time) => JSON.stringify({ token: text, expiresIn: time }),
+    ME_LINKS: (array) => JSON.stringify({ data: array, count: array.length }),
 
     // Set the token expiration time (in seconds)
-    EXPIRES = 3600,
+    EXPIRES: 3600,
 
     //Server
     SERVER_ERROR: (err) => `[Server] There was a problem starting the server: ${err}\nExiting.`,
@@ -36,6 +36,7 @@ module.exports = {
     TAKEN_EMAIL: 'This e-mail is taken.',
     WRONG_PASSWORD: 'Wrong password.',
     SUCCESS_REGISTER: 'Succesfully registered, you can now login!',
+    REGISTER_DISABLED: 'Registration is currently disabled.',
     SOMETHING_WENT_WRONG: 'Something went wrong, please try again later.',
 
     // URL
@@ -54,6 +55,7 @@ module.exports = {
     PROMPTS: {
         UNDERSTOOD: "Understood! Action aborted.",
         EXISTS: "A configuration file is already present, want to proceed?",
+        REGISTER: "Do you want to have registrations enabled? (you can modify this later by accessing the *config.json* file in *src/data/*",
 
         // RethinkDB prompts
         RETHINKDB_HOST: "What is the address your RethinkDB server is running at?",
@@ -86,6 +88,8 @@ module.exports = {
 
     // Setup #2
     VALIDATION: {
+        REGISTER: "Please input a valid boolean variable",
+
         // RethinkDB validations
         RETHINKDB_HOST: "This is not a valid RethinkDB host address (options: localhost, IP, URL)",
         RETHINKDB_PORT: "Please provide a valid port number",
