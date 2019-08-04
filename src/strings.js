@@ -16,6 +16,9 @@ module.exports = {
     TOKEN = (text, time) => JSON.stringify({ token: text, expiresIn: time }),
     ME_LINKS = (array) => JSON.stringify({ data: array, count: array.length }),
 
+    // Set the token expiration time (in seconds)
+    EXPIRES = 3600,
+
     //Server
     SERVER_ERROR: (err) => `[Server] There was a problem starting the server: ${err}\nExiting.`,
     SERVER_START: (port) => `[Server] Frontend server started on port ${port}!`,
