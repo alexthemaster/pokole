@@ -10,6 +10,12 @@ module.exports = {
     DB_CREATE_ERROR: (err) => `[RethinkDB] There was an error creating the ${db} database. Exiting.`,
     TABLE_CREATE_ERROR: (name) => `[RethinkDB] There was an error creating the ${name} table. Exiting.`,
 
+    // Route returns
+    ERROR = (text) => JSON.stringify({ error: text }),
+    SUCCESS = (text) => JSON.stringify({ success: text }),
+    TOKEN = (text, time) => JSON.stringify({ token: text, expiresIn: time }),
+    ME_LINKS = (array) => JSON.stringify({ data: array, count: array.length }),
+
     //Server
     SERVER_ERROR: (err) => `[Server] There was a problem starting the server: ${err}\nExiting.`,
     SERVER_START: (port) => `[Server] Frontend server started on port ${port}!`,

@@ -13,8 +13,8 @@ router.post('/', async (req, res) => {
     const password = req.headers['password'];
 
     // If one of these two is not provided, end the requests
-    if (!user) return res.status(403).json(error(strings.NO_LOGIN));
-    if (!password) return res.status(403).json(error(strings.NO_PASSWORD));
+    if (!user) return res.status(403).json(strings.ERROR(strings.NO_LOGIN));
+    if (!password) return res.status(403).json(strings.ERROR(strings.NO_PASSWORD));
 
     const filter = emailRegex.test(user) ? { email: user } : { username: user };
 
@@ -24,16 +24,14 @@ router.post('/', async (req, res) => {
 
     // Check if the provided password is the correct one
     const pass = await bcrypt.compare(password, account[0].password);
-    if (!pass) return res.status(403).json(error(strings.WRONG_PASSWORD));
+    if (!pass) return res.status(403).json(strings.ERROR(strings.WRONG_PASSWORD));
 
     // Set the expiration time to an hour
     const expirationTime = 3600;
 
     // Return a token the user will be able to use
-    return res.json(token(jwt.sign({ data: account[0].id, exp: Math.floor(Date.now() / 1000) + expirationTime }, jwtSecret), expirationTime))
+    return res.json(strings.TOKEN(jwt.sign({ data: account[0].id, exp: Math.floor(Date.now() / 1000) + expirationTime }, jwtSecret), expirationTime))
 })
 
-const error = (text) => JSON.stringify({ error: text });
-const token = (text, time) => JSON.stringify({ token: text, expiresIn: time });
 
 module.exports = router;

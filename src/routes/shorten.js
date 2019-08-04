@@ -15,14 +15,14 @@ router.post('/', async (req, res) => {
     if (!id) return;
 
     // If the URL is not provided, json the request
-    if (!url) return res.status(403).json(error(strings.NO_URL));
+    if (!url) return res.status(403).json(strings.ERROR(strings.NO_URL));
 
     // Check if the provided URL is valid
-    if (!URLRegex.test(url)) return res.status(403).json(error(strings.INVALID_URL));
+    if (!URLRegex.test(url)) return res.status(403).json(strings.ERROR(strings.INVALID_URL));
 
     // Do this if there is a custom desired short URL 
     if (custom) {
-        if (await req.db.table('links').filter({ short: custom }).count().run()) return res.status(403).json(error(strings.URL_IN_USE));
+        if (await req.db.table('links').filter({ short: custom }).count().run()) return res.status(403).json(strings.ERROR(strings.URL_IN_USE));
         return await insertURL(res, req.db, url, custom, id);
     }
 
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 async function insertURL(res, db, long, short, id) {
     const inserted = await db.table('links').insert({ long, short, user_id: id }).run();
     if (inserted.inserted) return res.json(strings.SUCCESS_ADD_URL(short));
-    else return res.status(500).json(error(strings.SOMETHING_WENT_WRONG));
+    else return res.status(500).json(strings.ERROR(strings.SOMETHING_WENT_WRONG));
 }
 
 function generateString(length = 5) {
@@ -50,7 +50,5 @@ function generateString(length = 5) {
 
     return final;
 }
-
-const error = (text) => JSON.stringify({ error: text });
 
 module.exports = router;

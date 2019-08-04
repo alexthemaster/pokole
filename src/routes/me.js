@@ -23,7 +23,7 @@ router.get('/links', async (req, res) => {
         array.push(temp)
     });
 
-    return res.json(JSON.stringify({ data: array, count: array.length }));
+    return res.json(strings.ME_LINKS);
 })
 
 module.exports = router;
