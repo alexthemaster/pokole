@@ -26,11 +26,14 @@ router.post('/', async (req, res) => {
     const pass = await bcrypt.compare(password, account[0].password);
     if (!pass) return res.status(403).json(error(strings.WRONG_PASSWORD));
 
+    // Set the expiration time to an hour
+    const expirationTime = 3600;
+
     // Return a token the user will be able to use
-    return res.json(token(jwt.sign({ data: account[0].id, exp: Math.floor(Date.now() / 1000) + (60 * 60) }, jwtSecret)))
+    return res.json(token(jwt.sign({ data: account[0].id, exp: Math.floor(Date.now() / 1000) + expirationTime }, jwtSecret), expirationTime))
 })
 
 const error = (text) => JSON.stringify({ error: text });
-const token = (text) => JSON.stringify({ token: text });
+const token = (text, time) => JSON.stringify({ token: text, expiresIn: time });
 
 module.exports = router;
