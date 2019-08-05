@@ -12,8 +12,6 @@ module.exports = {
         'nigger',
         'loli',
         'shota',
-        'cunt',
-        'idiot',
         'fuck',
         'pussy',
         'dick',
