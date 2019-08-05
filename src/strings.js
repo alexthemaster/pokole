@@ -1,4 +1,6 @@
-const { frontURL } = require(`${__dirname}/data/config`);
+let frontURL;
+
+try { frontURL = require('./data/config').frontURL; } catch (err) { null; }
 
 module.exports = {
     // Blocked list of words
