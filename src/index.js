@@ -1,5 +1,6 @@
 const { r } = require('rethinkdb-ts');
 const polka = require('polka');
+const serve = require('serve-static');
 const fs = require('fs-extra');
 const jwt = require('jsonwebtoken');
 const strings = require(`${__dirname}/strings`);
@@ -40,12 +41,13 @@ async function init() {
     // Frontend
     polka()
         .use(attachRethink)
+        .use(serve(`${__dirname}/static`))
         .use(middleware.status)
         .use(middleware.redirect)
         .get('/:short', async (req, res) => {
             const { short } = req.params;
             const [data] = await r.table('links').filter({ short }).run();
-            if (!data) return res.redirect('/');
+            if (!data) return res.redirect('/404');
             else res.redirect(data.long);
             return await r.table('links').get(data.id).update({ clicks: r.row('clicks').add(1).default(0) }).run();
         })
