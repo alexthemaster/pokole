@@ -24,7 +24,7 @@ router.get('/links', async (req, res) => {
         array.push(temp)
     });
 
-    return res.json(strings.ME_LINKS);
+    return res.json(strings.ME_LINKS(array));
 })
 
 module.exports = router;
