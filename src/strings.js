@@ -18,7 +18,7 @@ module.exports = {
         'pussy',
         'dick',
         'asshole',
-        'buttwhole',
+        'butthole',
         'dildo'
     ],
     BANNED_WORD: "We're sorry but the custom shortlink you're trying to use contains a blocked word / character",
