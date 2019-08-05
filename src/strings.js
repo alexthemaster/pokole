@@ -21,7 +21,7 @@ module.exports = {
         'butthole',
         'dildo'
     ],
-    BANNED_WORD: "We're sorry but the custom shortlink you're trying to use contains a blocked word / character",
+    BANNED_WORD: "We're sorry but the custom shortlink you're trying to use contains a blocked word / character - note: you cannot use any spaces",
     BANNED_URL: "We're sorry but the URL you're trying to use contains a blocked word",
 
     NO_CONFIG: 'The configuration file cannot be found, please run the `npm run setup` command to set it up.',
