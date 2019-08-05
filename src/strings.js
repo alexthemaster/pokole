@@ -22,7 +22,7 @@ module.exports = {
         'dildo'
     ],
     BANNED_WORD: "We're sorry but the custom shortlink you're trying to use contains a blocked word / character",
-    BANNED_URL: "We're sorry but the URLyou're trying to use contains a blocked word",
+    BANNED_URL: "We're sorry but the URL you're trying to use contains a blocked word",
 
     NO_CONFIG: 'The configuration file cannot be found, please run the `npm run setup` command to set it up.',
     NO_JWT: '[JWT] Please provide a JWT Secret!',
