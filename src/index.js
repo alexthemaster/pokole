@@ -46,7 +46,7 @@ async function init() {
         .use(middleware.redirect)
         .get('/:short', async (req, res) => {
             const { short } = req.params;
-            const [data] = await r.table('links').filter({ short }).run();
+            const [data] = await r.table('links').filter({ short: short.toLowerCase() }).run();
             if (!data) return res.redirect('/404');
             else res.redirect(data.long);
             return await r.table('links').get(data.id).update({ clicks: r.row('clicks').add(1).default(0) }).run();
