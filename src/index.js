@@ -116,7 +116,7 @@ const middleware = {
             let auth = req.headers['authorization'];
 
             // Authentification
-            if (!auth || !auth.includes('Bearer')) return res.status(403).json(error(strings.VALID_TOKEN));
+            if (!auth || !auth.includes('Bearer')) return res.status(403).json(strings.ERROR(strings.VALID_TOKEN));
             auth = auth.substring(7);
 
             let verified;
