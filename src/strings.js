@@ -1,6 +1,29 @@
 const { frontURL } = require('./data/config');
 
 module.exports = {
+    // Blocked list of words
+    BLOCKED: [
+        'porn',
+        'gay',
+        'faggot',
+        'lesbian',
+        'nazi',
+        'nigga',
+        'nigger',
+        'loli',
+        'shota',
+        'cunt',
+        'idiot',
+        'fuck',
+        'pussy',
+        'dick',
+        'asshole',
+        'buttwhole',
+        'dildo'
+    ],
+    BANNED_WORD: "We're sorry but the custom shortlink you're trying to use contains a blocked word / character",
+    BANNED_URL: "We're sorry but the URLyou're trying to use contains a blocked word",
+
     NO_CONFIG: 'The configuration file cannot be found, please run the `npm run setup` command to set it up.',
     NO_JWT: '[JWT] Please provide a JWT Secret!',
 

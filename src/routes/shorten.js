@@ -1,7 +1,8 @@
 const polka = require('polka');
 const strings = require('../strings');
 
-const URLRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+const URLRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+const WordRegex = /^[\w\-\_]+/;
 
 const { shortLength } = require('../data/config');
 
@@ -20,9 +21,18 @@ router.post('/', async (req, res) => {
     // Check if the provided URL is valid
     if (!URLRegex.test(url)) return res.status(403).json(strings.ERROR(strings.INVALID_URL));
 
-    // Do this if there is a custom desired short URL 
+    // Check if the provided URL contains any banned words
+    if (strings.BLOCKED.some(el => url.toLowerCase().includes(el))) return res.status(403).json(strings.ERROR(strings.BANNED_URL));
+
+    // Do this if there is a user desired shortlink
     if (custom) {
+        // If the user desired shortlink has a blocked character or word in it, return an error
+        // The WordRegex makes sure that only A-Z characters, numbers, dashes and underscores are usable
+        if (!WordRegex.test(custom) || strings.BLOCKED.some(el => custom.toLowerCase().includes(el))) return res.status(403).json(strings.ERROR(strings.BANNED_WORD));
+
+        // If the user desired shortlink is in use, return an error
         if (await req.db.table('links').filter({ short: custom }).count().run()) return res.status(403).json(strings.ERROR(strings.URL_IN_USE));
+
         return await insertURL(res, req.db, url, custom, id);
     }
 
