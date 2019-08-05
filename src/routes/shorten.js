@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
         if (!WordRegex.test(custom) || strings.BLOCKED.some(el => custom.toLowerCase().includes(el))) return res.status(403).json(strings.ERROR(strings.BANNED_WORD));
 
         // If the user desired shortlink is in use, return an error
-        if (await req.db.table('links').filter({ short: custom.toLowerCase() }).count().run()) return res.status(403).json(strings.ERROR(strings.URL_IN_USE));
+        if (await req.db.table('links').filter({ short: custom }).count().run()) return res.status(403).json(strings.ERROR(strings.URL_IN_USE));
 
         return await insertURL(res, req.db, url, custom, id);
     }
@@ -45,13 +45,13 @@ router.post('/', async (req, res) => {
 })
 
 async function insertURL(res, db, long, short, id) {
-    const inserted = await db.table('links').insert({ long, short: short.toLowerCase(), user_id: id }).run();
+    const inserted = await db.table('links').insert({ long, short, user_id: id }).run();
     if (inserted.inserted) return res.json(strings.SUCCESS_ADD_URL(short));
     else return res.status(500).json(strings.ERROR(strings.SOMETHING_WENT_WRONG));
 }
 
 function generateString(length = 5) {
-    const ABC = "abcdefghijklmnopqrstuvwxyz0123456789-_".split('');
+    const ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split('');
     let final = '';
 
     for (let i = 0; i < length; i++) {
