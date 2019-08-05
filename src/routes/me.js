@@ -1,4 +1,5 @@
 const polka = require('polka');
+const strings = require('../strings');
 
 const { frontURL } = require('../data/config');
 
