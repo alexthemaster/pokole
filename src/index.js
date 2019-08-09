@@ -1,5 +1,6 @@
 const { r } = require('rethinkdb-ts');
 const polka = require('polka');
+const cors = require('cors');
 const serve = require('serve-static');
 const fs = require('fs-extra');
 const jwt = require('jsonwebtoken');
@@ -59,6 +60,7 @@ async function init() {
     // Backend
     polka()
         .use(attachRethink)
+        .use(cors())
         .use(middleware.authentificate)
         .use(middleware.status)
         .use(middleware.redirect)

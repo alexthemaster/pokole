@@ -26,6 +26,7 @@
   "homepage": "https://github.com/pokole/pokole#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "cors": "^2.8.5",
     "fs-extra": "^8.1.0",
     "inquirer": "^6.5.0",
     "jsonwebtoken": "^8.5.1",
