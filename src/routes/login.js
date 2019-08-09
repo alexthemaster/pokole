@@ -20,10 +20,10 @@ router.post('/', async (req, res) => {
 
     // Check if the username exists in the database
     const account = await req.db.table('users').filter(filter).run();
-    if (!account[0]) return res.status(403).json(strings.NO_ACCOUNT);
+    if (!account[0]) return res.status(403).json(strings.ERROR(strings.NO_ACCOUNT));
 
     // Check if the provided password is the correct one
-    const pass = await bcrypt.compare(password, account[0].password);
+    const pass = await bcrypt.compare(password, account[0].password)
     if (!pass) return res.status(403).json(strings.ERROR(strings.WRONG_PASSWORD));
 
     // Return a token the user will be able to use
