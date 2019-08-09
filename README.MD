@@ -13,11 +13,11 @@ Configure it and then run `npm start`, it's that simple!
 
 # 📃 API
 
-| Endpoint | Type | Headers                     | Returns (JSON)                                                                           |
-| -------- | ---- | --------------------------- | ---------------------------------------------------------------------------------------- |
-| /register| POST | email, username, password   | success: string \| error: string                                                         |
-| /login   | POST | email \| username, password | Object: { token: string, expiresIn: number } \| error: string                            |
-| /shorten | POST | token, URL, custom?         | Object: { success: string, URL: link } \| error: string                                  | 
-| /me/links| GET  | token                       | Object: Array: { longURL: link, shortURL: link, clicks: number }, count: number          |
+| Endpoint | Type | Headers                           | Returns (JSON)                                                                           |
+| -------- | ---- | --------------------------------- | -------------------------------------------------------------------------------------------- |
+| /register| POST | email, username, password         | success: string \| error: string                                                         |
+| /login   | POST | user: username \| email, password | Object: { token: string, expiresIn: number } \| error: string                            |
+| /shorten | POST | authentification: bearer token, URL, custom?         | Object: { success: string, URL: link } \| error: string                                  | 
+| /me/links| GET  | authentification: bearer token                       | Object: Array: { longURL: link, shortURL: link, clicks: number }, count: number          |
 
 Note: the token is only valid for an hour, so you will have to request a new one after it!
