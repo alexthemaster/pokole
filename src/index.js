@@ -3,6 +3,7 @@ const polka = require('polka');
 const cors = require('cors');
 const serve = require('serve-static');
 const fs = require('fs-extra');
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const strings = require(`${__dirname}/strings`);
 
@@ -39,10 +40,12 @@ async function init() {
         next();
     }
 
+    const directory = await fs.pathExists(`${path.dirname(require.main.filename)}/static`) ? `${path.dirname(require.main.filename)}/static` : `${__dirname}/static`;
+
     // Frontend
     polka()
         .use(attachRethink)
-        .use(serve(`${__dirname}/static`))
+        .use(serve(directory))
         .use(middleware.status)
         .use(middleware.redirect)
         .get('/:short', async (req, res) => {
