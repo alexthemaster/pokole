@@ -8,7 +8,9 @@ Configurating Pokole is very simple, all you have to do is run the `npm run setu
 
 If you want to manually do this, you can always edit and rename the [config.example.json](/src/data/config.example.json) file.
 
-Note: If you want to host static files alongside Pokole, create a folder called static in the main folder (where your JS file is) and put your files there. The default files can be found [here](/src/static).
+Note: If you want to host static files alongside Pokole, replace or edit the files in the folder called static, which can be found in the src directory [here](/src/static).
+<!-- to be used if pokole will be an NPM package -->
+<!-- Note: If you want to host static files alongside Pokole, create a folder called static in the main folder (where your JS file is) and put your files there. The default files can be found [here](/src/static). -->
 ## ✏️ Usage
 Configure it and then run `npm start`, it's that simple!
 

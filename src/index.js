@@ -40,12 +40,14 @@ async function init() {
         next();
     }
 
-    const directory = await fs.pathExists(`${path.dirname(require.main.filename)}/static`) ? `${path.dirname(require.main.filename)}/static` : `${__dirname}/static`;
+    // to be used if pokole will be an NPM package
+    // const directory = await fs.pathExists(`${path.dirname(require.main.filename)}/static`) ? `${path.dirname(require.main.filename)}/static` : `${__dirname}/static`;
 
     // Frontend
     polka()
         .use(attachRethink)
-        .use(serve(directory))
+        // .use(serve(directory))
+        .use(serve(`${__dirname}/static`))
         .use(middleware.status)
         .use(middleware.redirect)
         .get('/:short', async (req, res) => {
