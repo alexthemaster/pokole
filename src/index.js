@@ -66,7 +66,7 @@ async function init() {
     polka()
         .use(attachRethink)
         .use(cors())
-        .use(middleware.authentificate)
+        .use(middleware.authenticate)
         .use(middleware.status)
         .use(middleware.redirect)
         .use(middleware.json)
@@ -118,11 +118,11 @@ const middleware = {
         return next();
     },
 
-    authentificate: function (req, res, next) {
+    authenticate: function (req, res, next) {
         req.auth = async function () {
             let auth = req.headers['authorization'];
 
-            // Authentification
+            // Authentication
             if (!auth || !auth.includes('Bearer')) return res.status(403).json(strings.ERROR(strings.VALID_TOKEN));
             auth = auth.substring(7);
 
