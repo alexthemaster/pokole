@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pokole/pokole.git"
+    "url": "git+https://github.com/penfoldium/pokole.git"
   },
   "keywords": [
     "pokole",
@@ -18,12 +18,12 @@
     "bitly",
     "tinyurl"
   ],
-  "author": "Kovacs Alex <alex@atm.moe>",
+  "author": "Penfoldium",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pokole/pokole/issues"
+    "url": "https://github.com/penfoldium/pokole/issues"
   },
-  "homepage": "https://github.com/pokole/pokole#readme",
+  "homepage": "https://github.com/penfoldium/pokole#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "cors": "^2.8.5",
