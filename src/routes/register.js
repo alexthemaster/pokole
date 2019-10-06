@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
 
     // We insert the user in the database
     const inserted = await req.db.table('users').insert({ username, email, password: hash }).run();
-    if (inserted.inserted) return res.json(strings.SUCCESS(strings.SUCCESS_REGISTER));
+    if (inserted.inserted) return res.status(201).json(strings.SUCCESS(strings.SUCCESS_REGISTER));
     else return res.status(500).json(strings.ERROR(strings.SOMETHING_WENT_WRONG));
 })
 
