@@ -18,9 +18,10 @@ Configure it and then run `npm start`, it's that simple!
 
 | Endpoint | Type | Headers                                              | Returns (JSON)                                                                           |
 | -------- | ---- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| /register| GET  |                                                      | Boolean                                                                                  |
 | /register| POST | email, username, password                            | success: string \| error: string                                                         |
 | /login   | POST | user: username \| email, password                    | Object: { token: string, expiresIn: number } \| error: string                            |
-| /shorten | POST | authorization: bearer token, URL, custom?         | Object: { success: string, URL: link } \| error: string                                  | 
-| /me/links| GET  | authorization: bearer token                       | Object: Array: { longURL: link, shortURL: link, clicks: number }, count: number          |
+| /shorten | POST | authorization: bearer token, URL, custom?            | Object: { success: string, URL: link } \| error: string                                  | 
+| /me/links| GET  | authorization: bearer token                          | Object: Array: { longURL: link, shortURL: link, clicks: number }, count: number          |
 
 Note: the token is only valid for an hour, so you will have to request a new one after it!

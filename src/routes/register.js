@@ -7,6 +7,8 @@ const { bcrypt: { salt }, register } = require('../data/config');
 
 const router = polka();
 
+router.get('/', (req, res) => res.status(200).json(String(Boolean(register))));
+
 router.post('/', async (req, res) => {
     const email = req.headers['email'];
     const username = req.headers['username'];
