@@ -3,14 +3,25 @@
 # 🔗 Pokole
 Pokole is a simple URL shortener that uses NodeJS and RethinkDB.
 
+## 📝 Requirements
+- [Node.js](https://nodejs.org/en/) (12 or newer)
+- [node-gyp](https://github.com/nodejs/node-gyp)
+- [RethinkDB](https://rethinkdb.com) (latest)
+
 ## ⚙️ Configuration
-Configurating Pokole is very simple, all you have to do is run the `npm run setup` command and you're good to go.
+- `git clone https://github.com/penfoldium/pokole`
+- `cd pokole`
+- `npm install`
+- `npm run setup`
 
-If you want to manually do this, you can always edit and rename the [config.example.json](/src/data/config.example.json) file.
+If you want to manually do set up Pokole, you can always edit and rename the [config.example.json](/src/data/config.example.json) file.
 
-Note: If you want to host static files alongside Pokole, replace or edit the files in the folder called static, which can be found in the src directory [here](/src/static).
+## 📂 Hosting Static Files
+If you want to host static files alongside Pokole, replace or edit the files in the folder called static, which can be found in the src directory [here](/src/static).
+
+Note: don't delete the 404 folder, since users get redirected there if a short URL does not exist (you can, however, replace it with a desired one)
 <!-- to be used if pokole will be an NPM package -->
-<!-- Note: If you want to host static files alongside Pokole, create a folder called static in the main folder (where your JS file is) and put your files there. The default files can be found [here](/src/static). -->
+<!-- If you want to host static files alongside Pokole, create a folder called static in the main folder (where your JS file is) and put your files there. The default files can be found [here](/src/static). Also include a 404 folder with a index.html file (this is where users get redirected if a short URL does not exist)! -->
 ## ✏️ Usage
 Configure it and then run `npm start`, it's that simple!
 
