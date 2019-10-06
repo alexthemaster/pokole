@@ -14,7 +14,7 @@ Pokole is a simple URL shortener that uses NodeJS and RethinkDB.
 - `npm install`
 - `npm run setup`
 
-If you want to manually do set up Pokole, you can always edit and rename the [config.example.json](/src/data/config.example.json) file.
+If you want to manually set up Pokole, you can always edit and rename the [config.example.json](/src/data/config.example.json) file.
 
 ## 📂 Hosting Static Files
 If you want to host static files alongside Pokole, replace or edit the files in the folder called static, which can be found in the src directory [here](/src/static).
