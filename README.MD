@@ -19,6 +19,8 @@ If you want to manually set up Pokole, you can always edit and rename the [confi
 ## 📂 Hosting Static Files
 If you want to host static files alongside Pokole, replace or edit the files in the folder called static, which can be found in the src directory [here](/src/static).
 
+[Pokole-Web](https://github.com/penfoldium/pokole-web) is a webpage you can use to manage your URLS.
+
 Note: don't delete the 404 folder, since users get redirected there if a short URL does not exist (you can, however, replace it with a desired one)
 <!-- to be used if pokole will be an NPM package -->
 <!-- If you want to host static files alongside Pokole, create a folder called static in the main folder (where your JS file is) and put your files there. The default files can be found [here](/src/static). Also include a 404 folder with a index.html file (this is where users get redirected if a short URL does not exist)! -->
