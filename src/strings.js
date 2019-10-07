@@ -66,7 +66,7 @@ module.exports = {
     NO_URL: 'No URL to shorten provided.',
     INVALID_URL: 'The provided URL is invalid.',
     URL_IN_USE: 'This short URL is currently in use.',
-    SUCCESS_ADD_URL: (url) => JSON.stringify({ succes: `The ${url} short URL has been added!`, URL: `${frontURL}/${url}` }),
+    SUCCESS_ADD_URL: (url) => JSON.stringify({ success: `The ${url} short URL has been added!`, URL: `${frontURL}/${url}` }),
 
     JWT: {
         TokenExpiredError: () => 'The token is expired',
