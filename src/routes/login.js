@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     if (!user) return res.status(403).json(strings.ERROR(strings.NO_LOGIN));
     if (!password) return res.status(403).json(strings.ERROR(strings.NO_PASSWORD));
 
-    const filter = emailRegex.test(user) ? { email: user } : { username: user };
+    const filter = emailRegex.test(user) ? { email: user.toLowerCase() } : { username: user.toLowerCase() };
 
     // Check if the username exists in the database
     const account = await req.db.table('users').filter(filter).run();

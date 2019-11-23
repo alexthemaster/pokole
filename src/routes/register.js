@@ -25,14 +25,14 @@ router.post('/', async (req, res) => {
     if (!emailRegex.test(email)) return res.status(403).end(strings.ERROR(strings.INVALID_EMAIL));
 
     // We check if the username or e-mail is already in use
-    if (await req.db.table('users').filter({ username }).count().run()) return res.status(403).json(strings.ERROR(strings.TAKEN_USERNAME));
-    if (await req.db.table('users').filter({ email }).count().run()) return res.status(403).json(strings.ERROR(strings.TAKEN_EMAIL));
+    if (await req.db.table('users').filter({ username: username.toLowerCase() }).count().run()) return res.status(403).json(strings.ERROR(strings.TAKEN_USERNAME));
+    if (await req.db.table('users').filter({ email: email.toLowerCase() }).count().run()) return res.status(403).json(strings.ERROR(strings.TAKEN_EMAIL));
 
     // We hash the password provided by the user
     const hash = await bcrypt.hash(password, salt);
 
     // We insert the user in the database
-    const inserted = await req.db.table('users').insert({ username, email, password: hash }).run();
+    const inserted = await req.db.table('users').insert({ username: username.toLowerCase(), email: email.toLowerCase(), password: hash }).run();
     if (inserted.inserted) return res.status(201).json(strings.SUCCESS(strings.SUCCESS_REGISTER));
     else return res.status(500).json(strings.ERROR(strings.SOMETHING_WENT_WRONG));
 })
