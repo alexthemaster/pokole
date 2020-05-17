@@ -4,8 +4,7 @@
   "description": "A simple and fast URL shortener that uses NodeJS and PostgreSQL.",
   "main": "dist/index.js",
   "files": [
-    "dist",
-    "assets"
+    "dist"
   ],
   "repository": {
     "type": "git",

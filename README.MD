@@ -1,4 +1,4 @@
-![Pokole](/assets/logo.png)
+![Pokole](https://i.imgur.com/jGBJmfr.png)
 
 # 🔗 Pokole
 Pokole is a simple and fast URL shortener that uses NodeJS and PostgreSQL.
