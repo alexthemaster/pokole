@@ -17,6 +17,12 @@ class DBQueries {
         `, [...values])
     }
 
+    public static async getUser(db: Pool, user: string, isEmail: boolean = false) {
+        const [account] = await this.findUsers(db, isEmail ? '' : user, isEmail ? user : '');
+        if (!account) return null;
+        else return account;
+    }
+
     public static async addUser(db: Pool, username: string, email: string, password: string) {
         return this.add(db, 'users', ['username', 'email', 'password', 'created_on'], [username, email, password, new Date()]);
     }

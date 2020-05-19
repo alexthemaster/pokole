@@ -8,6 +8,7 @@ import * as Constants from '../Constants';
 
 // Routes
 import { router as Register } from './routes/Register';
+import { router as Login } from './routes/Login';
 
 
 class Pokole {
@@ -148,6 +149,7 @@ class Pokole {
             .use(attachDB)
             .use(attachConfig)
             .use('/register', Register)
+            .use('/login', Login)
             .listen(this.#config.server.backendPort, () => console.info(Constants.SERVER.BACK_START(this.#config.server.backendPort!))).on('error', (err) => new Error(Constants.SERVER.BACK_ERROR(err)));
     }
 }

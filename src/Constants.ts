@@ -3,7 +3,7 @@ export const NO_CONFIG = "Please provide the configuration object when creating 
 export const NO_FRONT_URL = "Please provide the URL the front-end of Pokole is located at.";
 export const NO_BACK_URL = "Please provide the URL the back-end of Pokole is located at.";
 
-export const NO_LOGIN = "Username / E-Mail not provided.";
+export const NO_LOGIN = "user header not provided. (can either be a username or an email)";
 export const NO_ACCOUNT = "This account doesn't exist.";
 export const NO_USERNAME = "username header not provided.";
 export const NO_PASSWORD = "password header not provided.";
@@ -12,7 +12,7 @@ export const VALID_TOKEN = "Please provide a valid token! (login)";
 export const INVALID_EMAIL = "Invalid e-mail provided.";
 export const TAKEN_USERNAME = "This username is taken.";
 export const TAKEN_EMAIL = "This e-mail is taken.";
-export const WRONG_PASSWORD = "Wrong password.";
+export const WRONG_PASSWORD = "Wrong password provided.";
 export const SUCCESS_REGISTER = "Succesfully registered, you can now login!";
 export const REGISTRATION_DISABLED = "Registration is currently disabled.";
 export const SOMETHING_WENT_WRONG = "Something went wrong, please try again later.";
@@ -25,6 +25,7 @@ export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)
 
 export const REGISTRATION = (enabled: boolean) => { return { enabled } };
 
+export const TOKEN = (token: string, expiresIn: number) => { return { token, expiresIn } };
 export const SUCCESS = (message: string) => { return { success: message } };
 export const ERROR = (error: string) => { return { error } };
 
