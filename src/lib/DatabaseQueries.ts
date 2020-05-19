@@ -21,13 +21,6 @@ class DBQueries {
         return this.add(db, 'users', ['username', 'email', 'password', 'created_on'], [username, email, password, new Date()]);
     }
 
-    public static async exists(db: Pool, table: string, column: string, value: any): Promise<boolean> {
-        const { rows } = await db.query(/* sql */`
-            SELECT EXISTS(SELECT 1 FROM ${table} WHERE ${column}=$1)
-        `, [value]);
-        return rows[0].exists;
-    }
-
     public static async findUsers(db: Pool, username: string, email: string) {
         const { rows } = await db.query(/* sql */`
             SELECT * FROM users WHERE (LOWER(username)=LOWER($1)) OR (LOWER(email)=LOWER($2)) 
