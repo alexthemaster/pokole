@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
     if (!await bcrypt.compare(password, account.password)) return res.status(401).json(Constants.ERROR(Constants.WRONG_PASSWORD));
 
     // Return a token the user will be able to use
-    return res.json(Constants.TOKEN(jwt.sign({ data: account.id, exp: Math.floor(Date.now() / 1000) + Constants.EXPIRES }, (req as CustomRequest).config.jwtSecret), Constants.EXPIRES));
+    return res.json(Constants.TOKEN(jwt.sign({ data: account.user_id, exp: Math.floor(Date.now() / 1000) + Constants.EXPIRES }, (req as CustomRequest).config.jwtSecret), Constants.EXPIRES));
 });
 
 export { router };
