@@ -10,6 +10,9 @@ import * as Constants from '../Constants';
 import { router as Register } from './routes/Register';
 import { router as Login } from './routes/Login';
 
+// Middlewares 
+import { attachConfig } from './middlewares/AttachConfig';
+import { attachDB } from './middlewares/AttachDatabase';
 
 class Pokole {
     #config: PokoleConfiguration;
@@ -127,27 +130,15 @@ class Pokole {
         const directory: string = await fs.pathExists(userDir) ? userDir : path.join(__dirname, '../static');
         console.info(Constants.SERVE_STATIC(directory));
 
-        const attachDB = (req: Request, _res: Response, next: () => void) => {
-            (req as CustomRequest).db = this.#database;
-
-            next();
-        };
-
-        const attachConfig = (req: Request, _res: Response, next: () => void) => {
-            (req as CustomRequest).config = this.#config;
-            
-            next();
-        };
-
         this.#frontServer
             .use(serve(directory))
-            .use(attachDB)
-            .use(attachConfig)
+            .use(attachDB(this.#database))
+            .use(attachConfig(this.#config))
             .listen(this.#config.server.port, () => console.info(Constants.SERVER.FRONT_START(this.#config.server.port!))).on('error', (err) => new Error(Constants.SERVER.FRONT_ERROR(err)));
         this.#backServer
             .use(cors())
-            .use(attachDB)
-            .use(attachConfig)
+            .use(attachDB(this.#database))
+            .use(attachConfig(this.#config))
             .use('/register', Register)
             .use('/login', Login)
             .listen(this.#config.server.backendPort, () => console.info(Constants.SERVER.BACK_START(this.#config.server.backendPort!))).on('error', (err) => new Error(Constants.SERVER.BACK_ERROR(err)));
