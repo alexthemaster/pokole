@@ -17,6 +17,18 @@ class DBQueries {
         `, [...values])
     }
 
+    public static async getLink(db: Pool, link: string) {
+        const { rows } = await db.query(/* sql */`
+            SELECT * FROM links WHERE shortened=$1
+        `, [link]);
+
+        return rows;
+    };
+
+    public static async addLink(db: Pool, userID: number, url: string, shortlink: string) {
+        return this.add(db, 'links', ['user_id', 'original', 'shortened', 'created_on'], [userID, url, shortlink, new Date()]);
+    }
+
     public static async getUser(db: Pool, user: string, isEmail: boolean = false) {
         const [account] = await this.findUsers(db, isEmail ? '' : user, isEmail ? user : '');
         if (!account) return null;

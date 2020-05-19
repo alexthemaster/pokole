@@ -9,11 +9,12 @@ import * as Constants from '../Constants';
 // Routes
 import { router as Register } from './routes/Register';
 import { router as Login } from './routes/Login';
+import { router as Shorten } from './routes/Shorten';
 
 // Middlewares 
 import { attachConfig } from './middlewares/AttachConfig';
 import { attachDB } from './middlewares/AttachDatabase';
-import { authenticate } from './middlewares/Authenticate';
+import { DBQueries } from './DatabaseQueries';
 
 class Pokole {
     #config: PokoleConfiguration;
@@ -135,14 +136,22 @@ class Pokole {
             .use(serve(directory))
             .use(attachDB(this.#database))
             .use(attachConfig(this.#config))
+            .get('/:short', async (req, res) => {
+                const { short } = req.params;
+                const [data] = await DBQueries.getLink(this.#database, short);
+                if (!data) return res.redirect('/404');
+                else res.redirect(data.original);
+
+                // TODO: counters and stuff
+            })
             .listen(this.#config.server.port, () => console.info(Constants.SERVER.FRONT_START(this.#config.server.port!))).on('error', (err) => new Error(Constants.SERVER.FRONT_ERROR(err)));
         this.#backServer
             .use(cors())
             .use(attachDB(this.#database))
             .use(attachConfig(this.#config))
-            .use(authenticate)
             .use('/register', Register)
             .use('/login', Login)
+            .use('/shorten', Shorten)
             .listen(this.#config.server.backendPort, () => console.info(Constants.SERVER.BACK_START(this.#config.server.backendPort!))).on('error', (err) => new Error(Constants.SERVER.BACK_ERROR(err)));
     }
 }
