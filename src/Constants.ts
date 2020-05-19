@@ -3,9 +3,32 @@ export const NO_CONFIG = "Please provide the configuration object when creating 
 export const NO_FRONT_URL = "Please provide the URL the front-end of Pokole is located at.";
 export const NO_BACK_URL = "Please provide the URL the back-end of Pokole is located at.";
 
+export const NO_LOGIN = "Username / E-Mail not provided.";
+export const NO_ACCOUNT = "This account doesn't exist.";
+export const NO_USERNAME = "username header not provided.";
+export const NO_PASSWORD = "password header not provided.";
+export const NO_EMAIL = "email header not provided.";
+export const VALID_TOKEN = "Please provide a valid token! (login)";
+export const INVALID_EMAIL = "Invalid e-mail provided.";
+export const TAKEN_USERNAME = "This username is taken.";
+export const TAKEN_EMAIL = "This e-mail is taken.";
+export const WRONG_PASSWORD = "Wrong password.";
+export const SUCCESS_REGISTER = "Succesfully registered, you can now login!";
+export const REGISTRATION_DISABLED = "Registration is currently disabled.";
+export const SOMETHING_WENT_WRONG = "Something went wrong, please try again later.";
+
 export const NO_JWT = "Please provide a JWT secret token (used for encrypting user tokens)";
 
 export const SERVE_STATIC = (directory: string) => `[Server] Serving static files from directory ${directory}!`;
+
+export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const REGISTRATION = (enabled: boolean) => { return { enabled } };
+
+export const SUCCESS = (message: string) => { return { success: message } };
+export const ERROR = (error: string) => { return { error } };
+
+export const EXPIRES = 3600;
 
 export const SERVER = {
     FRONT_ERROR: (error: Error) => `[Server] Something went wrong with the front-end server: ${error}`,

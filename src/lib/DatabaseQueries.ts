@@ -17,6 +17,10 @@ class DBQueries {
         `, [...values])
     }
 
+    public static async addUser(db: Pool, username: string, email: string, password: string) {
+        return this.add(db, 'users', ['username', 'email', 'password', 'created_on'], [username, email, password, new Date()]);
+    }
+
     public static async exists(db: Pool, table: string, column: string, value: any): Promise<boolean> {
         const { rows } = await db.query(/* sql */`
             SELECT EXISTS(SELECT 1 FROM ${table} WHERE ${column}=$1)
@@ -24,10 +28,11 @@ class DBQueries {
         return rows[0].exists;
     }
 
-    public static async find(db: Pool, table: string, column: string, value: any) {
-        return await db.query(/* sql */`
-            SELECT * FROM ${table} WHERE ${column}=$1
-        `, [value]);
+    public static async existsUser(db: Pool, username: string, email: string) {
+        const { rows } = await db.query(/* sql */`
+            SELECT * FROM users WHERE (LOWER(username)=LOWER($1)) OR (LOWER(email)=LOWER($2)) 
+        `, [username, email]);
+        return rows;
     }
 }
 

@@ -1,10 +1,13 @@
 import { Pool } from 'pg';
-import express, { Express, Request } from 'express';
+import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import serve from 'serve-static';
 import fs from 'fs-extra';
 import path from 'path';
 import * as Constants from '../Constants';
+
+// Routes
+import { router as Register } from './routes/Register';
 
 
 class Pokole {
@@ -34,6 +37,9 @@ class Pokole {
         // URLs
         if (!config.frontURL) throw new Error(Constants.NO_FRONT_URL);
         if (!config.backURL) throw new Error(Constants.NO_BACK_URL);
+
+        // Registration
+        if (!config.registration) config.registration = true;
 
         // JWT
         if (!config.jwtSecret) throw new Error(Constants.NO_JWT);
@@ -85,7 +91,7 @@ class Pokole {
             CREATE TABLE IF NOT EXISTS users (
                 user_id serial PRIMARY KEY,
                 username VARCHAR (50) UNIQUE NOT NULL,
-                password VARCHAR (50) NOT NULL,
+                password CHAR (60) NOT NULL,
                 email VARCHAR (350) UNIQUE NOT NULL,
                 created_on TIMESTAMP NOT NULL
            ) 
@@ -118,26 +124,51 @@ class Pokole {
         // Get the directory that's going to be used to serve static files
         const userDir: string = path.join(path.dirname(require!.main!.filename), 'static');
         const directory: string = await fs.pathExists(userDir) ? userDir : path.join(__dirname, '../static');
-        console.info(Constants.SERVE_STATIC(directory))
+        console.info(Constants.SERVE_STATIC(directory));
 
-        const attachDB = () => {
-            return (req: CustomRequest, _res: Response, next: () => void) => {
-                req.db = this.#database;
-                next();
-            }
-        }
+        const attachDB = (req: Request, _res: Response, next: () => void) => {
+            (req as CustomRequest).db = this.#database;
+
+            next();
+        };
+
+        const attachConfig = (req: Request, _res: Response, next: () => void) => {
+            (req as CustomRequest).config = this.#config;
+            
+            next();
+        };
 
         this.#frontServer
             .use(serve(directory))
             .use(attachDB)
+            .use(attachConfig)
             .listen(this.#config.server.port, () => console.info(Constants.SERVER.FRONT_START(this.#config.server.port!))).on('error', (err) => new Error(Constants.SERVER.FRONT_ERROR(err)));
-        this.#backServer    
+        this.#backServer
             .use(cors())
             .use(attachDB)
-            .listen(this.#config.server.backendPort, () => console.info(Constants.SERVER.BACK_START(this.#config.server.backendPort!))).on('error', (err) => new Error(Constants.SERVER.FRONT_ERROR(err)));
+            .use(attachConfig)
+            .use('/register', Register)
+            .listen(this.#config.server.backendPort, () => console.info(Constants.SERVER.BACK_START(this.#config.server.backendPort!))).on('error', (err) => new Error(Constants.SERVER.BACK_ERROR(err)));
     }
 }
 
+/**
+ * Configuration interface for Pokole
+ * @example
+ * const config = {
+ *      db: {
+ *          user: 'alex',
+ *          password: '123',
+ *          host: 'localhost',
+ *          database: 'test'
+ *      },
+ *      frontURL: 'localhost',
+ *      backURL: 'localhost',
+ *      server: { port: 1234, backendPort: 1235 },
+ *      jwtSecret: 'mmlol',
+ *      registration: true
+ * };
+ */
 interface PokoleConfiguration {
     /** The database connection information */
     db: Database;
@@ -153,6 +184,8 @@ interface PokoleConfiguration {
     shortLength?: number;
     /** The JWT (JSON Web Token) secret you want to use - make sure to keep this private, as this is what's used to encrypt user tokens */
     jwtSecret: string;
+    /** Whether or not registration is enabled */
+    registration?: boolean;
 }
 
 interface PokoleServerOptions {
@@ -176,7 +209,8 @@ interface Database {
 }
 
 interface CustomRequest extends Request {
-    db: Pool
+    db: Pool;
+    config: PokoleConfiguration;
 }
 
 export { Pokole, PokoleConfiguration, CustomRequest };
