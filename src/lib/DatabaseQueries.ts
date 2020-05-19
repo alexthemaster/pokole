@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import { Pool } from 'pg';
 
 class DBQueries {
     constructor() {
@@ -28,7 +28,7 @@ class DBQueries {
         return rows[0].exists;
     }
 
-    public static async existsUser(db: Pool, username: string, email: string) {
+    public static async findUsers(db: Pool, username: string, email: string) {
         const { rows } = await db.query(/* sql */`
             SELECT * FROM users WHERE (LOWER(username)=LOWER($1)) OR (LOWER(email)=LOWER($2)) 
         `, [username, email]);

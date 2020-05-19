@@ -23,9 +23,9 @@ router.post('/', async (req, res) => {
     if (!Constants.emailRegex.test(email.toString())) return res.status(400).json(Constants.ERROR(Constants.INVALID_EMAIL));
 
     // Check if a user exists with the same username or e-mail
-    const exists = await DBQueries.existsUser((req as CustomRequest).db, username.toString(), email.toString());
-    if (!!exists) {
-        exists.forEach(user => {
+    const users = await DBQueries.findUsers((req as CustomRequest).db, username.toString(), email.toString());
+    if (users) {
+        users.forEach(user => {
             if (user.username === username) return res.status(409).json(Constants.ERROR(Constants.TAKEN_USERNAME));
             if (user.email === email) return res.status(409).json(Constants.ERROR(Constants.TAKEN_EMAIL));
         });
