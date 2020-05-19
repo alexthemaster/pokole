@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import * as Constants from '../../Constants';
 
 function authenticate(req: Request, res: Response, next: () => void) {
-    const { authorization  } = req.headers;
+    const { authorization } = req.headers;
 
     if (!authorization || !authorization.toString().startsWith('Bearer')) {
         res.status(401).json(Constants.ERROR(Constants.VALID_TOKEN));
