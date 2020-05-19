@@ -8,7 +8,7 @@ export const NO_ACCOUNT = "This account doesn't exist.";
 export const NO_USERNAME = "username header not provided.";
 export const NO_PASSWORD = "password header not provided.";
 export const NO_EMAIL = "email header not provided.";
-export const VALID_TOKEN = "Please provide a valid token! (login)";
+export const VALID_TOKEN = "Please provide a valid token! (authorization header)";
 export const INVALID_EMAIL = "Invalid e-mail provided.";
 export const TAKEN_USERNAME = "This username is taken.";
 export const TAKEN_EMAIL = "This e-mail is taken.";
@@ -30,6 +30,12 @@ export const SUCCESS = (message: string) => { return { success: message } };
 export const ERROR = (error: string) => { return { error } };
 
 export const EXPIRES = 3600;
+
+export const JWT = {
+    TokenExpiredError: () => 'The token is expired',
+    JsonWebTokenError: (err: Error) => err.message,
+    NotBeforeError: () => 'Thrown if current time is before the nbf claim.'
+};
 
 export const SERVER = {
     FRONT_ERROR: (error: Error) => `[Server] Something went wrong with the front-end server: ${error}`,

@@ -13,6 +13,7 @@ import { router as Login } from './routes/Login';
 // Middlewares 
 import { attachConfig } from './middlewares/AttachConfig';
 import { attachDB } from './middlewares/AttachDatabase';
+import { authenticate } from './middlewares/Authenticate';
 
 class Pokole {
     #config: PokoleConfiguration;
@@ -139,6 +140,7 @@ class Pokole {
             .use(cors())
             .use(attachDB(this.#database))
             .use(attachConfig(this.#config))
+            .use(authenticate)
             .use('/register', Register)
             .use('/login', Login)
             .listen(this.#config.server.backendPort, () => console.info(Constants.SERVER.BACK_START(this.#config.server.backendPort!))).on('error', (err) => new Error(Constants.SERVER.BACK_ERROR(err)));
@@ -204,6 +206,7 @@ interface Database {
 interface CustomRequest extends Request {
     db: Pool;
     config: PokoleConfiguration;
+    authedUser?: number;
 }
 
 export { Pokole, PokoleConfiguration, CustomRequest };
