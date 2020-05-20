@@ -161,15 +161,15 @@ class Pokole {
  * @example
  * const config = {
  *      db: {
- *          user: 'alex',
- *          password: '123',
+ *          user: 'penfoldium',
+ *          password: 'PeNf0ldium',
  *          host: 'localhost',
- *          database: 'test'
+ *          database: 'pokole'
  *      },
  *      frontURL: 'localhost',
- *      backURL: 'localhost',
- *      server: { port: 1234, backendPort: 1235 },
- *      jwtSecret: 'mmlol',
+ *      backURL: 'localhost:8080',
+ *      server: { port: 80, backendPort: 8080 },
+ *      jwtSecret: '33HdAiM$4zGs',
  *      registration: true
  * };
  */
@@ -180,9 +180,9 @@ interface PokoleConfiguration {
     server: PokoleServerOptions;
     /** The salt number bcrypt should use */
     bcrypt?: number;
-    /** The URL the front-end of Pokole is hosted at */
+    /** The URL the front-end of Pokole is accessible from */
     frontURL: string;
-    /** The URL the back-end of Pokole is hosted at */
+    /** The URL the back-end of Pokole is accessible from */
     backURL: string;
     /** The length of the characters used in the shortlink */
     shortLength?: number;
