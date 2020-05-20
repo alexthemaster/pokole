@@ -56,7 +56,6 @@ export const SERVER = {
     BACK_START: (port: number) => `[Server] Back-end server started on port ${port}`
 }
 
-// A list of blocked words
 export const BLOCKED = [
     'porn',
     'gay',
