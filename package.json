@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A simple and fast URL shortener that uses NodeJS and PostgreSQL.",
   "main": "dist/index.js",
+  "typings": "/dist/index.d.ts",
   "files": [
     "dist"
   ],
