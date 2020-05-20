@@ -6,6 +6,12 @@ Pokole is a simple and fast URL shortener that uses NodeJS and PostgreSQL.
 ## 🤔 Meaning
 Pokole stands for 'short' in Hawaiian.
 
+## 💻 Features
+- Simplicity
+- Ease of use
+- In-Depth statistics (Still under work!)
+- Written in TypeScript to ensure fast and bug-free code
+
 ## 📝 Requirements
 - [Node.js](https://nodejs.org/en/) (12 or newer)
 - [node-gyp](https://github.com/nodejs/node-gyp) (required for building bcrypt)
@@ -58,9 +64,3 @@ const config = {
 // We create a new Pokole instance, provide it with the required options and call the start function
 new Pokole(config).start();
 ```
-
-## 💻 Features
-- Simplicity
-- Ease of use
-- In-Depth statistics (Still under work!)
-- Written in TypeScript to ensure fast and bug-free code
