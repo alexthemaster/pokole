@@ -45,6 +45,6 @@ class DBQueries {
         `, [username, email]);
         return rows;
     }
-}
+};
 
 export { DBQueries };

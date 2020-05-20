@@ -42,11 +42,12 @@ router.post('/', authenticate, async (req, res) => {
     return await insertURL(req, res, (req as CustomRequest).authedUser!, url.toString(), shortlink);
 });
 
-function hasBannedWord(url: string) {
+function hasBannedWord(url: string): boolean {
     if (Constants.BLOCKED.some(word => url.toString().toLowerCase().includes(word))) return true;
+    else return false;
 };
 
-async function insertURL(req: Request, res: Response, userID: number, url: string, shortlink: string) {
+async function insertURL(req: Request, res: Response, userID: number, url: string, shortlink: string): Promise<Response> {
     try {
         await DBQueries.addLink((req as CustomRequest).db, userID, url, shortlink);
         return res.json(Constants.SUCCESS_ADD_URL(shortlink, (req as CustomRequest).config.frontURL));

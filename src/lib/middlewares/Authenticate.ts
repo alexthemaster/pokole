@@ -25,7 +25,9 @@ function authenticate(req: Request, res: Response, next: () => void) {
 };
 
 interface token {
+    /** The data property stores the user_id */
     data: number;
+    /** The time until the token expires in seconds */
     exp: number;
 };
 
