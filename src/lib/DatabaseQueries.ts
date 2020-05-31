@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import { User } from './Pokole';
 
 class DBQueries {
     constructor() {
@@ -32,7 +33,7 @@ class DBQueries {
     public static async getUser(db: Pool, user: string, isEmail: boolean = false) {
         const [account] = await this.findUsers(db, isEmail ? '' : user, isEmail ? user : '');
         if (!account) return null;
-        else return account;
+        else return account as User;
     }
 
     public static async addUser(db: Pool, username: string, email: string, password: string) {
@@ -43,7 +44,7 @@ class DBQueries {
         const { rows } = await db.query(/* sql */`
             SELECT * FROM users WHERE (LOWER(username)=LOWER($1)) OR (LOWER(email)=LOWER($2)) 
         `, [username, email]);
-        return rows;
+        return rows as User[];
     }
 };
 

@@ -218,4 +218,12 @@ interface CustomRequest extends Request {
     authedUser?: number;
 }
 
-export { Pokole, PokoleConfiguration, CustomRequest };
+interface User {
+    user_id: number;
+    username: string;
+    password: string;
+    email: string;
+    created_on: Date;
+}
+
+export { Pokole, PokoleConfiguration, User, CustomRequest };
