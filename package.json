@@ -27,7 +27,7 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.1",
     "inquirer": "^6.5.2",
     "jsonwebtoken": "^8.5.1",
     "polka": "^0.5.2",
