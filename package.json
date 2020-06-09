@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/penfoldium/pokole#readme",
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "fs-extra": "^9.0.1",
     "inquirer": "^7.1.0",
