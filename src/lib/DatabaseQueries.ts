@@ -9,9 +9,10 @@ class DBQueries {
     public static async add(db: Pool, table: string, columns: string[], values: any[]) {
         const expressions: string[] = [];
 
+        // We add an element to the expressions array for every value, so we can have the values be escaped when added to the database
         for (let i = 0; i < values.length; i++) {
-            expressions.push(`$${i + 1}`)
-        };
+            expressions.push(`$${i + 1}`);
+        }
 
         return await db.query(/* sql */`
             INSERT INTO ${table} (${columns.join(',')}) VALUES (${expressions.join(',')})
