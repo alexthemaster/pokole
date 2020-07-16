@@ -159,7 +159,7 @@ class Pokole {
 /**
  * Configuration interface for Pokole
  * @example
- * const config = {
+ * const config: PokoleConfiguration = {
  *      db: {
  *          user: 'penfoldium',
  *          password: 'PeNf0ldium',
