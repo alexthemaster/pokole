@@ -17,7 +17,7 @@ Pokole stands for 'short' in Hawaiian.
 - [node-gyp](https://github.com/nodejs/node-gyp) (required for building bcrypt)
 - [PostgreSQL](https://postgresql.org) (latest)
 
-Note: if you use Docker then you won't need any of the above, since we also provide a [Docker solution](https://github.com/penfoldium/pokole-docker) file! (open it for further instructions, __recommended way of running Pokole since it makes everything so much easier__)
+Note: if you use Docker then you won't need any of the above, since we also provide a [Docker solution](https://github.com/penfoldium/pokole-docker)! (open it for further instructions, __recommended way of running Pokole since it makes everything so much easier__)
 
 ## 🔨 Usage
 In case you choose to run Pokole the "OG" way, instead of running it with Docker, here's an easy-to-follow tutorial:
