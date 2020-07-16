@@ -27,6 +27,12 @@ class DBQueries {
         return this.add(db, 'users', ['username', 'email', 'password', 'created_on'], [username, email, password, new Date()]);
     }
 
+    public static async addStatistics(db: Pool, shortlink: string, stats: object) {
+        return await db.query(/* sql */`
+            UPDATE links SET statistics = array_append(statistics, $1) WHERE LOWER(shortened)=LOWER($2)
+        `, [stats, shortlink]);
+    }
+
     public static async getLink(db: Pool, link: string) {
         const { rows } = await db.query(/* sql */`
             SELECT * FROM links WHERE shortened=$1

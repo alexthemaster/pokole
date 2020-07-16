@@ -36,12 +36,14 @@ export const EXPIRES = 3600;
 export const NO_URL = 'No URL to shorten provided. (url header)';
 export const INVALID_URL = 'The provided URL is invalid.';
 export const URL_IN_USE = 'This short URL is currently in use.';
-export const SUCCESS_ADD_URL = (url: string, frontURL: string) => { return { success: `The ${url} short URL has been added!`, URL: `${frontURL}/${url}` }};
+export const SUCCESS_ADD_URL = (url: string, frontURL: string) => { return { success: `The ${url} short URL has been added!`, URL: `${frontURL}/${url}` } };
 
 export const BAD_CHARACTERS = "It appears that you're trying to use forbidden characters in a custom shortlink, please don't do that!";
 
 export const BANNED_WORD = "We're sorry but the custom shortlink you're trying to use contains a blocked word / character - note: you cannot use any spaces";
 export const BANNED_URL = "We're sorry but the URL you're trying to use contains a blocked word";
+
+export const IP_INFO = (IP: string) => `https://stat.ripe.net/data/maxmind-geo-lite/data.json?resource=${IP}`;
 
 export const JWT = {
     TokenExpiredError: () => 'The token is expired',

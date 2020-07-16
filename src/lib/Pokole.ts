@@ -111,7 +111,7 @@ class Pokole {
                 original TEXT NOT NULL,
                 shortened TEXT UNIQUE NOT NULL,
                 created_on TIMESTAMPTZ NOT NULL,
-                statistics JSON[] NOT NULL
+                statistics JSON[]
             ) 
             `);
 
@@ -215,6 +215,14 @@ interface CustomRequest extends Request {
     authedUser?: number;
 }
 
+interface Statistics {
+    IP: string;
+    country?: string;
+    city?: string;
+    latitude?: string;
+    longitude?: string;
+}
+
 interface User {
     user_id: number;
     username: string;
@@ -223,4 +231,4 @@ interface User {
     created_on: Date;
 }
 
-export { Pokole, PokoleConfiguration, User, CustomRequest };
+export { Pokole, PokoleConfiguration, User, Statistics, CustomRequest };
