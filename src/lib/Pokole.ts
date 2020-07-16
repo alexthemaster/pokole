@@ -109,7 +109,7 @@ class Pokole {
                 id serial PRIMARY KEY,
                 user_id VARCHAR (50) NOT NULL,
                 original TEXT NOT NULL,
-                shortened TEXT NOT NULL,
+                shortened TEXT UNIQUE NOT NULL,
                 created_on TIMESTAMPTZ NOT NULL,
                 statistics JSON[] NOT NULL
             ) 
