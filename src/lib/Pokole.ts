@@ -93,6 +93,7 @@ class Pokole {
 
         this.#init = async () => {
             const client = await this.#database.connect();
+
             await client.query(/* sql */`
             CREATE TABLE IF NOT EXISTS users (
                 user_id serial PRIMARY KEY,
@@ -102,15 +103,18 @@ class Pokole {
                 created_on TIMESTAMP NOT NULL
            ) 
             `);
+
             await client.query(/* sql */`
             CREATE TABLE IF NOT EXISTS links (
                 id serial PRIMARY KEY,
                 user_id VARCHAR (50) NOT NULL,
                 original TEXT NOT NULL,
                 shortened TEXT NOT NULL,
-                created_on TIMESTAMPTZ NOT NULL
+                created_on TIMESTAMPTZ NOT NULL,
+                statistics JSON[] NOT NULL
             ) 
             `);
+
             client.release();
         };
 
