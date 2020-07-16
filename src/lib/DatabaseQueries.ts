@@ -19,6 +19,14 @@ class DBQueries {
         `, [...values])
     }
 
+    public static async addLink(db: Pool, userID: number, url: string, shortlink: string) {
+        return this.add(db, 'links', ['user_id', 'original', 'shortened', 'created_on'], [userID, url, shortlink, new Date()]);
+    }
+
+    public static async addUser(db: Pool, username: string, email: string, password: string) {
+        return this.add(db, 'users', ['username', 'email', 'password', 'created_on'], [username, email, password, new Date()]);
+    }
+
     public static async getLink(db: Pool, link: string) {
         const { rows } = await db.query(/* sql */`
             SELECT * FROM links WHERE shortened=$1
@@ -27,18 +35,10 @@ class DBQueries {
         return rows;
     };
 
-    public static async addLink(db: Pool, userID: number, url: string, shortlink: string) {
-        return this.add(db, 'links', ['user_id', 'original', 'shortened', 'created_on'], [userID, url, shortlink, new Date()]);
-    }
-
     public static async getUser(db: Pool, user: string, isEmail: boolean = false) {
         const [account] = await this.findUsers(db, isEmail ? '' : user, isEmail ? user : '');
         if (!account) return null;
         else return account as User;
-    }
-
-    public static async addUser(db: Pool, username: string, email: string, password: string) {
-        return this.add(db, 'users', ['username', 'email', 'password', 'created_on'], [username, email, password, new Date()]);
     }
 
     public static async findUsers(db: Pool, username: string, email: string) {
