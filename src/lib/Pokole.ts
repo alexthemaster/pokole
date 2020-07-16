@@ -10,11 +10,11 @@ import * as Constants from '../Constants';
 import { router as Register } from './routes/Register';
 import { router as Login } from './routes/Login';
 import { router as Shorten } from './routes/Shorten';
+import { router as ShortLink } from './routes/ShortLink';
 
 // Middlewares 
 import { attachConfig } from './middlewares/AttachConfig';
 import { attachDB } from './middlewares/AttachDatabase';
-import { DBQueries } from './DatabaseQueries';
 
 class Pokole {
     #config: PokoleConfiguration;
@@ -140,14 +140,7 @@ class Pokole {
             .use(serve(directory))
             .use(attachDB(this.#database))
             .use(attachConfig(this.#config))
-            .get('/:short', async (req, res) => {
-                const { short } = req.params;
-                const [data] = await DBQueries.getLink(this.#database, short);
-                if (!data) return res.redirect('/404');
-                else res.redirect(data.original);
-
-                // TODO: counters and stuff
-            })
+            .use('/', ShortLink)
             .listen(this.#config.server.port, () => console.info(Constants.SERVER.FRONT_START(this.#config.server.port!))).on('error', (err) => new Error(Constants.SERVER.FRONT_ERROR(err)));
         this.#backServer
             .use(cors())
