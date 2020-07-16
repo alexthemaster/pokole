@@ -64,3 +64,10 @@ const config = {
 // We create a new Pokole instance, provide it with the required options and call the start function
 new Pokole(config).start();
 ```
+
+## 📂 Hosting Static Files
+If you want to host static files alongside Pokole (in case you don't use the Docker solution), create a file called "static" in the folder above and Pokole will serve the files inside it.
+
+The default static files can be found [here](/src/static). Don't forget to include a 404 folder with a index.html file (this is where users get redirected if a short URL does not exist)!
+
+[Pokole-Web](https://github.com/penfoldium/pokole-web) is a webpage you can use to manage your URLS.
