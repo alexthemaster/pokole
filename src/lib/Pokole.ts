@@ -96,7 +96,7 @@ class Pokole {
 
             await client.query(/* sql */`
             CREATE TABLE IF NOT EXISTS users (
-                user_id serial PRIMARY KEY,
+                user_id SERIAL PRIMARY KEY,
                 username VARCHAR (50) UNIQUE NOT NULL,
                 password CHAR (60) NOT NULL,
                 email VARCHAR (350) UNIQUE NOT NULL,
@@ -106,14 +106,24 @@ class Pokole {
 
             await client.query(/* sql */`
             CREATE TABLE IF NOT EXISTS links (
-                id serial PRIMARY KEY,
+                id SERIAL PRIMARY KEY,
                 user_id VARCHAR (50) NOT NULL,
                 original TEXT NOT NULL,
                 shortened TEXT UNIQUE NOT NULL,
-                created_on TIMESTAMPTZ NOT NULL,
-                statistics JSON[]
+                created_on TIMESTAMPTZ NOT NULL
             ) 
             `);
+
+            await client.query(/* sql */`
+            CREATE TABLE IF NOT EXISTS statistics (
+                id SERIAL PRIMARY KEY,
+                short TEXT NOT NULL,
+                IP VARCHAR(39) NOT NULL,
+                country TEXT,
+                city TEXT,
+                latitude TEXT,
+                longitude TEXT
+            )`);
 
             client.release();
         };

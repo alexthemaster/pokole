@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { User } from './Pokole';
+import { User, Statistics } from './Pokole';
 
 class DBQueries {
     constructor() {
@@ -27,10 +27,17 @@ class DBQueries {
         return this.add(db, 'users', ['username', 'email', 'password', 'created_on'], [username, email, password, new Date()]);
     }
 
-    public static async addStatistics(db: Pool, shortlink: string, stats: object) {
+    public static async addStatistics(db: Pool, shortLink: string, stats: Statistics) {
         return await db.query(/* sql */`
-            UPDATE links SET statistics = array_append(statistics, $1) WHERE LOWER(shortened)=LOWER($2)
-        `, [stats, shortlink]);
+            INSERT INTO statistics (short, IP, country, city, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6)
+        `, [shortLink, stats.IP, stats.country, stats.city, stats.latitude, stats.longitude]);
+    };
+
+    public static async getStatistics(db: Pool, shortLink: string) {
+        const { rows } = await db.query(/* sql */`
+        SELECT * FROM statistics WHERE short=$1
+        `, [shortLink]);
+        return rows as Statistics[];
     }
 
     public static async getLink(db: Pool, link: string) {
