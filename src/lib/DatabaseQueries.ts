@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { User, Statistics } from './Pokole';
+import { User, Statistics, Link } from './Pokole';
 
 class DBQueries {
     constructor() {
@@ -38,6 +38,22 @@ class DBQueries {
         SELECT * FROM statistics WHERE short=$1
         `, [shortLink]);
         return rows as Statistics[];
+    }
+
+    public static async getAllUserStatistics(db: Pool, user_id: number) {
+        const { rows: shortlinks } = await db.query(/* sql */`
+        SELECT * FROM LINKS WHERE user_id=$1
+    `, [user_id]);
+
+        const statistics: { longURL: string; shortURL: string; created_on: Date; stats: {}[] }[] = [];
+
+        await Promise.all(shortlinks.map(async (link: Link) => {
+            const tmpStats = await this.getStatistics(db, link.shortened);
+
+            statistics.push({ longURL: link.original, shortURL: link.shortened, created_on: link.created_on, stats: [...tmpStats] })
+        }));
+
+        return statistics;
     }
 
     public static async getLink(db: Pool, link: string) {
