@@ -13,7 +13,7 @@ export const INVALID_EMAIL = "Invalid e-mail provided.";
 export const TAKEN_USERNAME = "This username is taken.";
 export const TAKEN_EMAIL = "This e-mail is taken.";
 export const WRONG_PASSWORD = "Wrong password provided.";
-export const SUCCESS_REGISTER = "Succesfully registered, you can now login!";
+export const SUCCESS_REGISTER = "Succesfully registered, you can now log in!";
 export const REGISTRATION_DISABLED = "Registration is currently disabled.";
 export const SOMETHING_WENT_WRONG = "Something went wrong, please try again later.";
 
@@ -46,7 +46,7 @@ export const BANNED_URL = "We're sorry but the URL you're trying to use contains
 export const IP_INFO = (IP: string) => `https://stat.ripe.net/data/maxmind-geo-lite/data.json?resource=${IP}`;
 
 export const JWT = {
-    TokenExpiredError: () => 'The token is expired',
+    TokenExpiredError: () => 'The token has expired',
     JsonWebTokenError: (err: Error) => err.message,
     NotBeforeError: () => 'Thrown if current time is before the nbf claim.'
 };
