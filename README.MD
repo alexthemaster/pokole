@@ -17,10 +17,8 @@ Pokole stands for 'short' in Hawaiian.
 - [node-gyp](https://github.com/nodejs/node-gyp) (required for building bcrypt)
 - [PostgreSQL](https://postgresql.org) (latest)
 
-Note: if you use Docker then you won't need any of the above, since we also provide a [Docker solution](https://github.com/penfoldium/pokole-docker)! (open it for further instructions, __recommended way of running Pokole since it makes everything so much easier__)
-
 ## 🔨 Usage
-In case you choose to run Pokole the "OG" way, instead of running it with Docker, here's an easy-to-follow tutorial:
+Here's an easy-to-follow tutorial:
 
 - Install Node, node-gyp and PostgreSQL
 - Create a new folder and install the package inside via npm (`npm install pokole`) or yarn (`yarn add pokole`)
@@ -66,7 +64,7 @@ new Pokole(config).start();
 ```
 
 ## 📂 Hosting Static Files
-If you want to host static files alongside Pokole (in case you don't use the Docker solution), create a file called "static" in the folder above and Pokole will serve the files inside it.
+If you want to host static files alongside Pokole, create a file called "static" in the folder above and Pokole will serve the files inside it.
 
 The default static files can be found [here](/src/static). Don't forget to include a 404 folder with a index.html file (this is where users get redirected if a short URL does not exist)!
 
