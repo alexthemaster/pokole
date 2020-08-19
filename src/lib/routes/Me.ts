@@ -4,7 +4,7 @@ import { authenticate } from '../middlewares/Authenticate';
 
 const router = Router();
 
-router.get('/', authenticate, async (req, res) => {
+router.get('/links', authenticate, async (req, res) => {
     if (!(req as CustomRequest).authedUser) return;
 
     const user_id = (req as CustomRequest).authedUser;

@@ -9,7 +9,7 @@ Pokole stands for 'short' in Hawaiian.
 ## 💻 Features
 - Simplicity
 - Ease of use
-- In-Depth statistics (Still under work!)
+- In-Depth statistics
 - Written in TypeScript to ensure fast and bug-free code
 
 ## 📝 Requirements
@@ -63,9 +63,24 @@ const config = {
 new Pokole(config).start();
 ```
 
+⚠ We recommend using a process manager such as [PM2](https://pm2.keymetrics.io) for keeping the script alive!
+
 ## 📂 Hosting Static Files
 If you want to host static files alongside Pokole, create a file called "static" in the folder above and Pokole will serve the files inside it.
 
 The default static files can be found [here](/src/static). Don't forget to include a 404 folder with a index.html file (this is where users get redirected if a short URL does not exist)!
 
 [Pokole-Web](https://github.com/penfoldium/pokole-web) is a webpage you can use to manage your URLS.
+
+## 🕸 Routes / API
+
+| Endpoint  | Type | Headers                                   | Description                                                                                     | Returns (JSON)                                                 | Requires authentication |
+| /register | GET  |                                           | Check if registration is possible                                                               | enabled: boolean                                               | No                      |
+| /register | POST | email, username, password                 | Register an account                                                                             | success: string | error: string                                | No                      |
+| /login    | POST | user: username | email, password          | Login to an existing account                                                                    | { token: string, expiresIn: number } | error: string           | No                      |
+| /shorten  | POST | Authorization: Bearer token, URL, custom? | Shorten an URL                                                                                  | { success: string, URL: link } | error: string                 | Yes                     |
+| /me/links	| GET  | Authorization: Bearer token               | Returns an array containing the list of your shortened URL's and and array of statistics for it | { longURL: link, shortURL: link, created_on: date, stats: [] } | Yes                     |
+
+Legend: ? means the header is optional; | means OR; the string after the colon in the returns is the type of the returned thing
+
+Note: the token is only valid for an hour, so you will have to request a new one after it!
