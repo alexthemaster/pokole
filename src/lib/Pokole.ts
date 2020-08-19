@@ -9,6 +9,7 @@ import * as Constants from '../Constants';
 // Routes
 import { router as Register } from './routes/Register';
 import { router as Login } from './routes/Login';
+import { router as Me } from './routes/Me';
 import { router as Shorten } from './routes/Shorten';
 import { router as ShortLink } from './routes/ShortLink';
 
@@ -159,6 +160,7 @@ class Pokole {
             .use('/register', Register)
             .use('/login', Login)
             .use('/shorten', Shorten)
+            .use('/me', Me)
             .listen(this.#config.server.backendPort, () => console.info(Constants.SERVER.BACK_START(this.#config.server.backendPort!))).on('error', (err) => new Error(Constants.SERVER.BACK_ERROR(err)));
     }
 }
@@ -241,4 +243,12 @@ interface User {
     created_on: Date;
 }
 
-export { Pokole, PokoleConfiguration, User, Statistics, CustomRequest };
+interface Link {
+    id: number;
+    user_id: number;
+    original: string;
+    shortened: string;
+    created_on: Date;
+}
+
+export { Pokole, PokoleConfiguration, User, Link, Statistics, CustomRequest };
