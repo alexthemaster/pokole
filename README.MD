@@ -1,5 +1,7 @@
 ![Pokole](/assets/logo.png)
 
+# ARCHIVED VERSION - This is the very first version of Pokole, one which uses RethinkDB as the database. This version will no longer be maintained.
+
 # 🔗 Pokole
 Pokole is a simple URL shortener that uses NodeJS and RethinkDB.
 
