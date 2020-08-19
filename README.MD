@@ -75,6 +75,7 @@ The default static files can be found [here](/src/static). Don't forget to inclu
 ## 🕸 Routes / API
 
 | Endpoint  | Type | Headers                                   | Description                                                                                     | Returns (JSON)                                                 | Requires authentication |
+| --------- | ---- | ----------------------------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ----------------------- |
 | /register | GET  |                                           | Check if registration is possible                                                               | enabled: boolean                                               | No                      |
 | /register | POST | email, username, password                 | Register an account                                                                             | success: string | error: string                                | No                      |
 | /login    | POST | user: username | email, password          | Login to an existing account                                                                    | { token: string, expiresIn: number } | error: string           | No                      |
