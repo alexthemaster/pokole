@@ -27,7 +27,7 @@
   "homepage": "https://github.com/penfoldium/pokole",
   "dependencies": {
     "@types/node-fetch": "^2.5.7",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
