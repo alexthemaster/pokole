@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request } from 'express';
 import cors from 'cors';
 import serve from 'serve-static';
 import fs from 'fs-extra';
