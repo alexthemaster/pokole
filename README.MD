@@ -1,4 +1,5 @@
 ![Pokole](https://i.imgur.com/jGBJmfr.png)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/penfoldium/pokole.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/penfoldium/pokole/context:javascript)
 
 # 🔗 Pokole
 Pokole is a simple and fast URL shortener that uses NodeJS and PostgreSQL.
