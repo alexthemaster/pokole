@@ -56,7 +56,7 @@ export const SERVER = {
     BACK_ERROR: (error: Error) => `[Server] Something went wrong with the back-end server: ${error}`,
     FRONT_START: (port: number) => `[Server] Front-end server started on port ${port}`,
     BACK_START: (port: number) => `[Server] Back-end server started on port ${port}`
-}
+};
 
 export const BLOCKED = [
     'porn',
@@ -85,4 +85,4 @@ export const DB = {
     NO_DATABASE: "[DB] Please provide the name of the database you want to use with Pokole.",
     NO_PASS: (user: string) => `[DB] Please provide the password for ${user}.`,
     ERROR: (err: Error) => `[DB] Unexpected error on database idle client: ${err}`
-} 
+};
