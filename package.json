@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/penfoldium/pokole.git"
+    "url": "git+https://github.com/alexthemaster/pokole.git"
   },
   "keywords": [
     "pokole",
@@ -19,12 +19,12 @@
     "bitly",
     "tinyurl"
   ],
-  "author": "Penfoldium",
+  "author": "Alex Kovacs",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/penfoldium/pokole/issues"
+    "url": "https://github.com/alexthemaster/pokole/issues"
   },
-  "homepage": "https://github.com/penfoldium/pokole",
+  "homepage": "https://github.com/alexthemaster/pokole",
   "dependencies": {
     "@types/node-fetch": "^2.5.7",
     "bcrypt": "^5.0.0",

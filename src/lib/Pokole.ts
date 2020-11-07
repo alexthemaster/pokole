@@ -170,8 +170,8 @@ class Pokole {
  * @example
  * const config: PokoleConfiguration = {
  *      db: {
- *          user: 'penfoldium',
- *          password: 'PeNf0ldium',
+ *          user: 'alexthemaster',
+ *          password: 'eee23EfgZ',
  *          host: 'localhost',
  *          database: 'pokole'
  *      },

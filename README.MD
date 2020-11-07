@@ -1,5 +1,5 @@
 ![Pokole](https://i.imgur.com/jGBJmfr.png)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/penfoldium/pokole.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/penfoldium/pokole/context:javascript)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/alexthemaster/pokole.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/alexthemaster/pokole/context:javascript)
 
 # 🔗 Pokole
 Pokole is a simple and fast URL shortener that uses NodeJS and PostgreSQL.
@@ -34,9 +34,9 @@ const config = {
     // The database connection information
     db: { 
         // The database user
-        user: 'penfoldium',
+        user: 'alexthemaster',
         // The password used by the PostgreSQL user
-        password: 'PeNf0ldium',
+        password: 'eee23EfgZ',
         // The URL PostgreSQL can be accessed from
         host: 'localhost',
         // The name of the database to use from PostgreSQL
@@ -71,7 +71,7 @@ If you want to host static files alongside Pokole, create a folder called `stati
 
 The default static files can be found [here](/src/static). Don't forget to include a 404 folder with an `index.html` file (this is where users get redirected if a short URL does not exist!)
 
-[Pokole-Web](https://github.com/penfoldium/pokole-web) is a webpage you can use to manage your URLs.
+[Pokole-Web](https://github.com/alexthemaster/pokole-web) is a webpage you can use to manage your URLs.
 
 ## 🕸 Routes / API
 
