@@ -13,6 +13,9 @@ Pokole stands for 'short' in Hawaiian.
 - In-depth statistics
 - Written in TypeScript to ensure fast and bug-free code
 
+## 🐳 Docker
+Using Pokole in Docker is easier, faster and more convenient! Head over to [Docker Hub](https://hub.docker.com/r/alexthemaster/pokole) for more information.
+
 ## 📝 Requirements
 - [Node.js](https://nodejs.org/en/) (12 or newer)
 - [node-gyp](https://github.com/nodejs/node-gyp) (required for building bcrypt)
