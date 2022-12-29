@@ -1,4 +1,4 @@
-const { Pokole } = require("./dist/index");
+const { Pokole } = require("pokole");
 
 const config = {
   db: {
