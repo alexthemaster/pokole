@@ -3,7 +3,6 @@ import { Router } from "express";
 import jwt from "jsonwebtoken";
 import * as Constants from "../../Constants";
 import { DBQueries } from "../DatabaseQueries";
-import { CustomRequest } from "../Pokole";
 
 const router = Router();
 
@@ -23,11 +22,7 @@ router.post("/", async (req, res) => {
   const isEmail: boolean = Constants.emailRegex.test(user.toString());
 
   // Get the user from the database, if it exists
-  const account = await DBQueries.getUser(
-    (req as CustomRequest).db,
-    user.toString(),
-    isEmail
-  );
+  const account = await DBQueries.getUser(req.db, user.toString(), isEmail);
 
   if (!account) {
     return res.status(401).json(Constants.ERROR(Constants.NO_ACCOUNT));
@@ -46,7 +41,7 @@ router.post("/", async (req, res) => {
           data: account.user_id,
           exp: Math.floor(Date.now() / 1000) + Constants.EXPIRES,
         },
-        (req as CustomRequest).config.jwtSecret
+        req.config.jwtSecret
       ),
       Constants.EXPIRES
     )

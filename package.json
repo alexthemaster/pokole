@@ -8,6 +8,7 @@
     "dist"
   ],
   "scripts": {
+    "build": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
@@ -21,11 +22,17 @@
       "plugin:@typescript-eslint/recommended",
       "prettier"
     ],
+    "env": {
+      "node": true
+    },
     "parser": "@typescript-eslint/parser",
     "plugins": [
       "@typescript-eslint"
     ],
-    "root": true
+    "root": true,
+    "rules": {
+      "@typescript-eslint/no-non-null-assertion": 0
+    }
   },
   "keywords": [
     "pokole",

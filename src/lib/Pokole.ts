@@ -1,5 +1,5 @@
 import cors from "cors";
-import express, { Express, Request } from "express";
+import express, { type Express } from "express";
 import fs from "fs-extra";
 import path from "path";
 import { Pool } from "pg";
@@ -18,14 +18,10 @@ import { attachConfig } from "./middlewares/AttachConfig";
 import { attachDB } from "./middlewares/AttachDatabase";
 
 class Pokole {
-  #config: PokoleConfiguration;
-  #frontServer!: Express;
-  #backServer!: Express;
-  #database!: Pool;
-  /** Initiates a database pool */
-  #connectDB: () => Promise<void>;
-  #exit: () => null;
-  #init: () => Promise<void>;
+  private config: PokoleConfiguration;
+  private frontServer: Express;
+  private backServer: Express;
+  private database!: Pool;
 
   /**
    * @param config The configuration object for Pokole
@@ -65,88 +61,87 @@ class Pokole {
     // Set default database info, if not provided by the user
     if (!config.db.port) config.db.port = 5432;
 
-    this.#config = config;
+    this.config = config;
 
     // Initiate the front-end and back-end servers
-    this.#frontServer = express();
-    this.#backServer = express();
-
-    this.#connectDB = async () => {
-      // Create the database pool
-      this.#database = new Pool(this.#config.db);
-
-      // Connect and disconnect to the database to make sure the provided data is correct
-      const connection = await this.#database.connect();
-      console.info(Constants.DB.CONNECTED);
-      connection.release();
-
-      // If the database errors out emit an error
-      this.#database.on("error", (err) => {
-        console.error(Constants.DB.ERROR(err));
-      });
-    };
-
-    // This runs right before the application exits
-    this.#exit = () => {
-      console.info(Constants.DB.EXIT);
-      this.#database.end();
-      process.exit();
-    };
-
-    this.#init = async () => {
-      const client = await this.#database.connect();
-
-      await client.query(/* sql */ `
-            CREATE TABLE IF NOT EXISTS users (
-                user_id SERIAL PRIMARY KEY,
-                username VARCHAR (50) UNIQUE NOT NULL,
-                password CHAR (60) NOT NULL,
-                email VARCHAR (350) UNIQUE NOT NULL,
-                created_on TIMESTAMP NOT NULL
-           ) 
-            `);
-
-      await client.query(/* sql */ `
-            CREATE TABLE IF NOT EXISTS links (
-                id SERIAL PRIMARY KEY,
-                user_id VARCHAR (50) NOT NULL,
-                original TEXT NOT NULL,
-                shortened TEXT UNIQUE NOT NULL,
-                created_on TIMESTAMPTZ NOT NULL
-            ) 
-            `);
-
-      await client.query(/* sql */ `
-            CREATE TABLE IF NOT EXISTS statistics (
-                id SERIAL PRIMARY KEY,
-                short TEXT NOT NULL,
-                IP VARCHAR(39) NOT NULL,
-                country TEXT,
-                city TEXT,
-                latitude TEXT,
-                longitude TEXT
-            )`);
-
-      client.release();
-    };
+    this.frontServer = express();
+    this.backServer = express();
 
     // Close the database pool before the application finally exits
     // Taken from https://stackoverflow.com/a/49392671
     ["SIGINT", "SIGUSR1", "SIGUSR2", "uncaughtException", "SIGTERM"].forEach(
       (eventType) => {
-        process.on(eventType, () => this.#exit());
+        process.on(eventType, this.exit);
       }
     );
   }
 
+  /** Runs right before the application exits */
+  private exit() {
+    console.info(Constants.DB.EXIT);
+    this.database.end();
+    process.exit();
+  }
+
+  private async connectDB(): Promise<void> {
+    // Create the database pool
+    this.database = new Pool(this.config.db);
+
+    // Connect and disconnect to the database to make sure the provided data is correct
+    const connection = await this.database.connect();
+    console.info(Constants.DB.CONNECTED);
+    connection.release();
+
+    // If the database errors out emit an error
+    this.database.on("error", (err) => {
+      console.error(Constants.DB.ERROR(err));
+    });
+  }
+
+  private async init() {
+    const client = await this.database.connect();
+
+    await client.query(/* sql */ `
+          CREATE TABLE IF NOT EXISTS users (
+              user_id SERIAL PRIMARY KEY,
+              username VARCHAR (50) UNIQUE NOT NULL,
+              password CHAR (60) NOT NULL,
+              email VARCHAR (350) UNIQUE NOT NULL,
+              created_on TIMESTAMP NOT NULL
+         ) 
+          `);
+
+    await client.query(/* sql */ `
+          CREATE TABLE IF NOT EXISTS links (
+              id SERIAL PRIMARY KEY,
+              user_id VARCHAR (50) NOT NULL,
+              original TEXT NOT NULL,
+              shortened TEXT UNIQUE NOT NULL,
+              created_on TIMESTAMPTZ NOT NULL
+          ) 
+          `);
+
+    await client.query(/* sql */ `
+          CREATE TABLE IF NOT EXISTS statistics (
+              id SERIAL PRIMARY KEY,
+              short TEXT NOT NULL,
+              IP VARCHAR(39) NOT NULL,
+              country TEXT,
+              city TEXT,
+              latitude TEXT,
+              longitude TEXT
+          )`);
+
+    client.release();
+  }
+
   /** Start the Pokole shortener */
   public async start() {
-    await this.#connectDB();
-    await this.#init();
+    await this.connectDB();
+    await this.init();
 
     // Get the directory that's going to be used to serve static files
     const userDir: string = path.join(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       path.dirname(require.main!.filename),
       "static"
     );
@@ -155,26 +150,26 @@ class Pokole {
       : path.join(__dirname, "../static");
     console.info(Constants.SERVE_STATIC(directory));
 
-    this.#frontServer
+    this.frontServer
       .use(serve(directory))
-      .use(attachDB(this.#database))
-      .use(attachConfig(this.#config))
+      .use(attachDB(this.database))
+      .use(attachConfig(this.config))
       .use("/", ShortLink)
-      .listen(this.#config.server.port, () =>
-        console.info(Constants.SERVER.FRONT_START(this.#config.server.port))
+      .listen(this.config.server.port, () =>
+        console.info(Constants.SERVER.FRONT_START(this.config.server.port))
       )
       .on("error", (err) => new Error(Constants.SERVER.FRONT_ERROR(err)));
-    this.#backServer
+    this.backServer
       .use(cors())
-      .use(attachDB(this.#database))
-      .use(attachConfig(this.#config))
+      .use(attachDB(this.database))
+      .use(attachConfig(this.config))
       .use("/register", Register)
       .use("/login", Login)
       .use("/shorten", Shorten)
       .use("/me", Me)
-      .listen(this.#config.server.backendPort, () =>
+      .listen(this.config.server.backendPort, () =>
         console.info(
-          Constants.SERVER.BACK_START(this.#config.server.backendPort)
+          Constants.SERVER.BACK_START(this.config.server.backendPort)
         )
       )
       .on("error", (err) => new Error(Constants.SERVER.BACK_ERROR(err)));
@@ -237,12 +232,6 @@ interface Database {
   port?: number;
 }
 
-interface CustomRequest extends Request {
-  db: Pool;
-  config: PokoleConfiguration;
-  authedUser?: number;
-}
-
 interface Statistics {
   IP: string;
   country?: string;
@@ -267,4 +256,20 @@ interface Link {
   created_on: Date;
 }
 
-export { Pokole, PokoleConfiguration, User, Link, Statistics, CustomRequest };
+declare module "express" {
+  interface Request {
+    db: Pool;
+    config: PokoleConfiguration;
+    authedUser?: number;
+  }
+}
+
+declare module "express-serve-static-core" {
+  interface Request {
+    db: Pool;
+    config: PokoleConfiguration;
+    authedUser?: number;
+  }
+}
+
+export { Pokole, PokoleConfiguration, User, Link, Statistics };

@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import isPrivateIP from "private-ip";
 import * as Constants from "../../Constants";
 import { DBQueries } from "../DatabaseQueries";
-import type { CustomRequest, Statistics } from "../Pokole";
+import type { Statistics } from "../Pokole";
 
 const router = Router();
 
@@ -11,7 +11,7 @@ router.get("/:short", async (req, res) => {
   const { short } = req.params;
 
   // Get the original (unshortened) URL from the database
-  const [data] = await DBQueries.getLink((req as CustomRequest).db, short);
+  const [data] = await DBQueries.getLink(req.db, short);
 
   // Redirect the user to a 404 page if the shortlink doesn't exist
   if (!data) return res.redirect("/404");
@@ -44,7 +44,7 @@ router.get("/:short", async (req, res) => {
     longitude: IPInfo.data?.located_resources[0].locations?.longitude,
   };
 
-  return DBQueries.addStatistics((req as CustomRequest).db, short, statistics);
+  return DBQueries.addStatistics(req.db, short, statistics);
 });
 
 export { router };

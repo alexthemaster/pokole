@@ -2,22 +2,18 @@ import bcrypt from "bcrypt";
 import { Router } from "express";
 import * as Constants from "../../Constants";
 import { DBQueries } from "../DatabaseQueries";
-import { CustomRequest } from "../Pokole";
 
 const router = Router();
 
 router.get("/", (req, res) =>
-  res
-    .status(200)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    .json(Constants.REGISTRATION((req as CustomRequest).config.registration!))
+  res.status(200).json(Constants.REGISTRATION(req.config.registration!))
 );
 
 router.post("/", async (req, res) => {
   const { email, username, password } = req.headers;
 
   // If registration is disabled then end the request
-  if (!(req as CustomRequest).config.registration)
+  if (!req.config.registration)
     return res
       .status(403)
       .json(Constants.ERROR(Constants.REGISTRATION_DISABLED));
@@ -35,7 +31,7 @@ router.post("/", async (req, res) => {
 
   // Check if a user exists with the same username or e-mail
   const users = await DBQueries.findUsers(
-    (req as CustomRequest).db,
+    req.db,
     username.toString(),
     email.toString()
   );
@@ -50,15 +46,11 @@ router.post("/", async (req, res) => {
   }
 
   // We hash the password provided by the user
-  const hash = await bcrypt.hash(
-    password,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    (req as CustomRequest).config.bcrypt!
-  );
+  const hash = await bcrypt.hash(password, req.config.bcrypt!);
 
   try {
     await DBQueries.addUser(
-      (req as CustomRequest).db,
+      req.db,
       username.toString(),
       email.toString(),
       hash

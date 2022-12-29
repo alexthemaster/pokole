@@ -1,7 +1,6 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import * as Constants from "../../Constants";
-import { CustomRequest } from "../Pokole";
 
 function authenticate(req: Request, res: Response, next: () => void) {
   const { authorization } = req.headers;
@@ -15,8 +14,8 @@ function authenticate(req: Request, res: Response, next: () => void) {
 
   let verified;
   try {
-    verified = jwt.verify(token, (req as CustomRequest).config.jwtSecret);
-    (req as CustomRequest).authedUser = (verified as token).data;
+    verified = jwt.verify(token, req.config.jwtSecret);
+    req.authedUser = (verified as token).data;
   } catch (err) {
     res
       .status(403)
