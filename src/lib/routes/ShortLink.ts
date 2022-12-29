@@ -22,7 +22,7 @@ router.get("/:short", async (req, res) => {
   // Taken from https://stackoverflow.com/a/39473073
   let IP =
     req.headers["x-forwarded-for"]?.toString() ??
-    req.connection.remoteAddress?.toString() ??
+    req.socket.remoteAddress?.toString() ??
     "127.0.0.1";
 
   if (IP.substring(0, 7) == "::ffff:") {
