@@ -1,18 +1,22 @@
-import { Router } from 'express';
-import { CustomRequest } from '../Pokole';
-import { authenticate } from '../middlewares/Authenticate';
-import { DBQueries } from '../DatabaseQueries';
+import { Router } from "express";
+import { DBQueries } from "../DatabaseQueries";
+import { authenticate } from "../middlewares/Authenticate";
+import { CustomRequest } from "../Pokole";
 
 const router = Router();
 
-router.get('/links', authenticate, async (req, res) => {
-    if (!(req as CustomRequest).authedUser) return;
+router.get("/links", authenticate, async (req, res) => {
+  if (!(req as CustomRequest).authedUser) return;
 
-    const user_id = (req as CustomRequest).authedUser;
+  const user_id = (req as CustomRequest).authedUser;
 
-    const statistics = await DBQueries.getAllUserStatistics((req as CustomRequest).db, user_id!);
+  const statistics = await DBQueries.getAllUserStatistics(
+    (req as CustomRequest).db,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    user_id!
+  );
 
-    return res.json(statistics);
+  return res.json(statistics);
 });
 
 export { router };

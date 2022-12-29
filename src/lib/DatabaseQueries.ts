@@ -1,81 +1,153 @@
-import { Pool } from 'pg';
-import { User, Statistics, Link } from './Pokole';
+import { Pool } from "pg";
+import { Link, Statistics, User } from "./Pokole";
 
 class DBQueries {
-    constructor() {
-        throw new Error("This class cannot be initiated.");
+  constructor() {
+    throw new Error("This class cannot be initiated.");
+  }
+
+  public static async add(
+    db: Pool,
+    table: string,
+    columns: string[],
+    values: unknown[]
+  ) {
+    const expressions: string[] = [];
+
+    // We add an element to the expressions array for every value, so we can have the values be escaped when added to the database
+    for (let i = 0; i < values.length; i++) {
+      expressions.push(`$${i + 1}`);
     }
 
-    public static async add(db: Pool, table: string, columns: string[], values: any[]) {
-        const expressions: string[] = [];
+    return await db.query(
+      /* sql */ `
+            INSERT INTO ${table} (${columns.join(
+        ","
+      )}) VALUES (${expressions.join(",")})
+        `,
+      [...values]
+    );
+  }
 
-        // We add an element to the expressions array for every value, so we can have the values be escaped when added to the database
-        for (let i = 0; i < values.length; i++) {
-            expressions.push(`$${i + 1}`);
-        }
+  public static async addLink(
+    db: Pool,
+    userID: number,
+    url: string,
+    shortlink: string
+  ) {
+    return this.add(
+      db,
+      "links",
+      ["user_id", "original", "shortened", "created_on"],
+      [userID, url, shortlink, new Date()]
+    );
+  }
 
-        return await db.query(/* sql */`
-            INSERT INTO ${table} (${columns.join(',')}) VALUES (${expressions.join(',')})
-        `, [...values])
-    }
+  public static async addUser(
+    db: Pool,
+    username: string,
+    email: string,
+    password: string
+  ) {
+    return this.add(
+      db,
+      "users",
+      ["username", "email", "password", "created_on"],
+      [username, email, password, new Date()]
+    );
+  }
 
-    public static async addLink(db: Pool, userID: number, url: string, shortlink: string) {
-        return this.add(db, 'links', ['user_id', 'original', 'shortened', 'created_on'], [userID, url, shortlink, new Date()]);
-    }
-
-    public static async addUser(db: Pool, username: string, email: string, password: string) {
-        return this.add(db, 'users', ['username', 'email', 'password', 'created_on'], [username, email, password, new Date()]);
-    }
-
-    public static async addStatistics(db: Pool, shortLink: string, stats: Statistics) {
-        return await db.query(/* sql */`
+  public static async addStatistics(
+    db: Pool,
+    shortLink: string,
+    stats: Statistics
+  ) {
+    return await db.query(
+      /* sql */ `
             INSERT INTO statistics (short, IP, country, city, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6)
-        `, [shortLink, stats.IP, stats.country, stats.city, stats.latitude, stats.longitude]);
-    };
+        `,
+      [
+        shortLink,
+        stats.IP,
+        stats.country,
+        stats.city,
+        stats.latitude,
+        stats.longitude,
+      ]
+    );
+  }
 
-    public static async getStatistics(db: Pool, shortLink: string) {
-        const { rows } = await db.query(/* sql */`
+  public static async getStatistics(db: Pool, shortLink: string) {
+    const { rows } = await db.query(
+      /* sql */ `
         SELECT * FROM statistics WHERE short=$1
-        `, [shortLink]);
-        return rows as Statistics[];
-    }
+        `,
+      [shortLink]
+    );
+    return rows as Statistics[];
+  }
 
-    public static async getAllUserStatistics(db: Pool, user_id: number) {
-        const { rows: shortlinks } = await db.query(/* sql */`
+  public static async getAllUserStatistics(db: Pool, user_id: number) {
+    const { rows: shortlinks } = await db.query(
+      /* sql */ `
         SELECT * FROM LINKS WHERE user_id=$1
-    `, [user_id]);
+    `,
+      [user_id]
+    );
 
-        const statistics: { longURL: string; shortURL: string; created_on: Date; stats: {}[] }[] = [];
+    const statistics: {
+      longURL: string;
+      shortURL: string;
+      created_on: Date;
+      stats: object[];
+    }[] = [];
 
-        await Promise.all(shortlinks.map(async (link: Link) => {
-            const tmpStats = await this.getStatistics(db, link.shortened);
+    await Promise.all(
+      shortlinks.map(async (link: Link) => {
+        const tmpStats = await this.getStatistics(db, link.shortened);
 
-            statistics.push({ longURL: link.original, shortURL: link.shortened, created_on: link.created_on, stats: [...tmpStats] })
-        }));
+        statistics.push({
+          longURL: link.original,
+          shortURL: link.shortened,
+          created_on: link.created_on,
+          stats: [...tmpStats],
+        });
+      })
+    );
 
-        return statistics;
-    }
+    return statistics;
+  }
 
-    public static async getLink(db: Pool, link: string) {
-        const { rows } = await db.query(/* sql */`
+  public static async getLink(db: Pool, link: string) {
+    const { rows } = await db.query(
+      /* sql */ `
             SELECT * FROM links WHERE shortened=$1
-        `, [link]);
+        `,
+      [link]
+    );
 
-        return rows;
-    };
+    return rows;
+  }
 
-    public static async getUser(db: Pool, user: string, isEmail: boolean = false) {
-        const [account] = await this.findUsers(db, isEmail ? '' : user, isEmail ? user : '');
-        if (!account) return null;
-        else return account as User;
-    }
+  public static async getUser(db: Pool, user: string, isEmail = false) {
+    const [account] = await this.findUsers(
+      db,
+      isEmail ? "" : user,
+      isEmail ? user : ""
+    );
+    if (!account) return null;
+    else return account as User;
+  }
 
-    public static async findUsers(db: Pool, username: string, email: string) {
-        const { rows } = await db.query(/* sql */`
+  public static async findUsers(db: Pool, username: string, email: string) {
+    const { rows } = await db.query(
+      /* sql */ `
             SELECT * FROM users WHERE (LOWER(username)=LOWER($1)) OR (LOWER(email)=LOWER($2)) 
-        `, [username, email]);
-        return rows as User[];
-    }
-};
+        `,
+      [username, email]
+    );
+    return rows as User[];
+  }
+}
 
 export { DBQueries };

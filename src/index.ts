@@ -1,1 +1,1 @@
-export { Pokole, PokoleConfiguration } from './lib/Pokole';
+export { Pokole, PokoleConfiguration } from "./lib/Pokole";
