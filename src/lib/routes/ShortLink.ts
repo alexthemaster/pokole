@@ -32,12 +32,12 @@ router.get("/:short", async (req, res) => {
   // If the IP is a private one (so accessed from inside the server's network) don't add to the URL's statistics
   if (isPrivateIP(IP)) return;
 
-  const IPInfo = await fetch(Constants.IP_INFO(IP as string)).then(
+  const IPInfo = await fetch(Constants.IP_INFO(IP)).then(
     (res) => res.json() as IpInfo
   );
 
   const statistics: Statistics = {
-    IP: IP as string,
+    IP,
     country: IPInfo.data?.located_resources[0].locations?.country,
     city: IPInfo.data?.located_resources[0].locations?.city,
     latitude: IPInfo.data?.located_resources[0].locations?.latitude,
