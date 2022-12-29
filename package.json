@@ -11,6 +11,18 @@
     "type": "git",
     "url": "git+https://github.com/alexthemaster/pokole.git"
   },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "root": true
+  },
   "keywords": [
     "pokole",
     "url",
