@@ -1,10 +1,8 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /pokole
 
 RUN npm install pokole
-
-ENV DB_HOST=host.docker.internal
 
 COPY index.js index.js
 
