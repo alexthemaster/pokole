@@ -25,7 +25,7 @@ router.post("/", authenticate, async (req, res) => {
   if (custom) {
     // If the user desired shortlink has a blocked character or word in it, return an error
     // The WordRegex makes sure that only A-Z characters, numbers, dashes and underscores are usable
-    if (Constants.WordRegex.test(custom.toString()))
+    if (!Constants.WordRegex.test(custom.toString()))
       return res.status(400).json(Constants.ERROR(Constants.BAD_CHARACTERS));
     if (hasBannedWord(custom.toString()))
       return res.status(400).json(Constants.ERROR(Constants.BANNED_WORD));

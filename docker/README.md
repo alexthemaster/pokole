@@ -4,6 +4,7 @@
 
 ```yaml
 services:
+  # For more info and setup visit https://hub.docker.com/_/postgres
   postgres:
     container_name: postgreSQL
     image: postgres
@@ -20,6 +21,7 @@ services:
       POSTGRES_USER: postgres
       # Change this
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: pokole
 
   pokole:
     container_name: pokole
@@ -42,8 +44,8 @@ services:
       REGISTRATION: true
     ports:
       # Change in case you want to expose to other ports
-      - 80
-      - 8080
+      - 80:80
+      - 8080:8080
     # If you want to host your own static files (or Pokole Web)
     # volumes:
     #   - /path/to/static/files:/pokole/static

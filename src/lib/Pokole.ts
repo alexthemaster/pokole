@@ -77,9 +77,14 @@ class Pokole {
   }
 
   /** Runs right before the application exits */
-  private exit() {
+  private exit(error?: Error) {
     console.info(Constants.DB.EXIT);
-    this.database.end();
+    console.error(error);
+
+    if (this.database) {
+      this.database.end();
+    }
+
     process.exit();
   }
 
@@ -272,4 +277,4 @@ declare module "express-serve-static-core" {
   }
 }
 
-export { Pokole, PokoleConfiguration, User, Link, Statistics };
+export { Link, Pokole, PokoleConfiguration, Statistics, User };
