@@ -7,7 +7,7 @@ import { DBQueries } from "../DatabaseQueries";
 const router = Router();
 
 router.post("/", async (req, res) => {
-  const { user, password } = req.headers;
+  const { user, password } = req.body;
 
   // If one of these two is not provided, end the request
   if (!user) {

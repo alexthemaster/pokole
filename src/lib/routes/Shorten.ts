@@ -9,7 +9,7 @@ const router = Router();
 router.post("/", authenticate, async (req, res) => {
   if (!req.authedUser) return;
 
-  const { url, custom } = req.headers;
+  const { url, custom } = req.body;
 
   if (!url) return res.status(400).json(Constants.ERROR(Constants.NO_URL));
 

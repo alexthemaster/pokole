@@ -10,7 +10,7 @@ router.get("/", (req, res) =>
 );
 
 router.post("/", async (req, res) => {
-  const { email, username, password } = req.headers;
+  const { email, username, password } = req.body;
 
   // If registration is disabled then end the request
   if (!req.config.registration)

@@ -1,5 +1,5 @@
 import cors from "cors";
-import express, { type Express } from "express";
+import express, { json, type Express } from "express";
 import fs from "fs-extra";
 import path from "path";
 import { Pool } from "pg";
@@ -168,6 +168,7 @@ class Pokole {
       .use(cors())
       .use(attachDB(this.database))
       .use(attachConfig(this.config))
+      .use(json())
       .use("/register", Register)
       .use("/login", Login)
       .use("/shorten", Shorten)
