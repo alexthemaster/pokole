@@ -43,6 +43,15 @@ class DBQueries {
     );
   }
 
+  public static async deleteLink(db: Pool, shortlink: string) {
+    return await db.query(
+      /* sql */ `
+      DELETE FROM links WHERE shortened=$1
+    `,
+      [shortlink]
+    );
+  }
+
   public static async addUser(
     db: Pool,
     username: string,

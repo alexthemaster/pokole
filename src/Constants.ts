@@ -49,9 +49,14 @@ export const ERROR = (error: string) => {
   return { error };
 };
 
+export const DELETED = (link: string) => {
+  return { success: `The shortlink ${link} has been deleted.` };
+};
+
 export const EXPIRES = 3600;
 
 export const NO_URL = "No URL to shorten provided. (url header)";
+export const NO_URL_DELETE = "This URL does not exist or is not yours.";
 export const INVALID_URL = "The provided URL is invalid.";
 export const URL_IN_USE = "This short URL is currently in use.";
 export const SUCCESS_ADD_URL = (url: string, frontURL: string) => {
