@@ -18,7 +18,7 @@ Pokole stands for 'short' in Hawaiian.
 
 ## 🐳 Docker
 
-Using Pokole in Docker is easier, faster and more convenient! Head over to [Docker Hub](https://hub.docker.com/r/alexthemaster/pokole) for more information.
+Using Pokole in Docker is easier, faster and more convenient! Head over to [Docker Hub](https://hub.docker.com/r/alexthemaster/pokole) for more information. Uses [https://github.com/alexthemaster/pokole-web/](Pokole Web) as its Web UI
 
 ## 📝 Requirements
 
@@ -86,14 +86,14 @@ The default static files can be found [here](/src/static). Don't forget to inclu
 
 ## 🕸 Routes / API
 
-| Endpoint        | Type   | Headers                                                         | Body                                                    | Description                                                                                     | Returns (JSON)                                                   | Requires authentication |
-| --------------- | ------ | --------------------------------------------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------------- |
-| /register       | GET    |                                                                 |                                                         | Check if registration is possible                                                               | `enabled: boolean`                                               | No                      |
-| /register       | POST   | `Content-Type: "application/json"`                              | `{ email: string, username: string, password: string }` | Register an account                                                                             | `success: string \| error: string`                               | No                      |
-| /login          | POST   | `Content-Type: "application/json"`                              | `{ username: string, password: string }`                | Login to an existing account                                                                    | `{ token: string, expiresIn: number } \| error: string`          | No                      |
-| /shorten        | POST   | `Authorization: Bearer token, Content-Type: "application/json"` | `{ url: string, custom?: string }`                      | Shorten an URL                                                                                  | `{ success: string, URL: link } \| error: string`                | Yes                     |
-| /me/links       | GET    | `Authorization: Bearer token`                                   |                                                         | Returns an array containing the list of your shortened URL's and and array of statistics for it | `{ longURL: link, shortURL: link, created_on: date, stats: [] }` | Yes                     |
-| /me/links/:link | DELETE | `Authorization: Bearer token, Content-Type: "application/json"` |                                                         | Delete a shortlink                                                                              | `{ success: string } \| { error: string }`                       | Yes                     |
+| Endpoint            | Type   | Headers                                                         | Body                                                    | Description                                                                                     | Returns (JSON)                                                   | Requires authentication |
+| ------------------- | ------ | --------------------------------------------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------------- |
+| /api/register       | GET    |                                                                 |                                                         | Check if registration is possible                                                               | `enabled: boolean`                                               | No                      |
+| /api/register       | POST   | `Content-Type: "application/json"`                              | `{ email: string, username: string, password: string }` | Register an account                                                                             | `success: string \| error: string`                               | No                      |
+| /api/login          | POST   | `Content-Type: "application/json"`                              | `{ username: string, password: string }`                | Login to an existing account                                                                    | `{ token: string, expiresIn: number } \| error: string`          | No                      |
+| /api/shorten        | POST   | `Authorization: Bearer token, Content-Type: "application/json"` | `{ url: string, custom?: string }`                      | Shorten an URL                                                                                  | `{ success: string, URL: link } \| error: string`                | Yes                     |
+| /api/me/links       | GET    | `Authorization: Bearer token`                                   |                                                         | Returns an array containing the list of your shortened URL's and and array of statistics for it | `{ longURL: link, shortURL: link, created_on: date, stats: [] }` | Yes                     |
+| /api/me/links/:link | DELETE | `Authorization: Bearer token, Content-Type: "application/json"` |                                                         | Delete a shortlink                                                                              | `{ success: string } \| { error: string }`                       | Yes                     |
 
 Legend: `?` means the header is optional; `|` means OR; the string after `:` in the Returns column is the type of the returned object
 

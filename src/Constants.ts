@@ -1,10 +1,7 @@
 export const NO_CONFIG =
   "Please provide the configuration object when creating a new Pokole instance.";
 
-export const NO_FRONT_URL =
-  "Please provide the URL the front-end of Pokole is located at.";
-export const NO_BACK_URL =
-  "Please provide the URL the back-end of Pokole is located at.";
+export const NO_FRONT_URL = "Please provide the URL Pokole is located at.";
 
 export const NO_LOGIN =
   "user header not provided. (can either be a username or an email)";
@@ -83,16 +80,10 @@ export const JWT = {
   NotBeforeError: () => "Thrown if current time is before the nbf claim.",
 };
 
-export const SERVER = {
-  FRONT_ERROR: (error: Error) =>
-    `[Server] Something went wrong with the front-end server: ${error}`,
-  BACK_ERROR: (error: Error) =>
-    `[Server] Something went wrong with the back-end server: ${error}`,
-  FRONT_START: (port: number) =>
-    `[Server] Front-end server started on port ${port}`,
-  BACK_START: (port: number) =>
-    `[Server] Back-end server started on port ${port}`,
-};
+export const SERVER_ERROR = (error: Error) =>
+  `[Server] Something went wrong with the server: ${error}`;
+export const SERVER_START = (port: number) =>
+  `[Server] Server started on port ${port}`;
 
 export const BLOCKED = [
   "porn",

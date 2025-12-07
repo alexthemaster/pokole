@@ -19,8 +19,7 @@ import { attachDB } from "./middlewares/AttachDatabase";
 
 class Pokole {
   private config: PokoleConfiguration;
-  private frontServer: Express;
-  private backServer: Express;
+  private server: Express;
   private database!: Pool;
 
   /**
@@ -39,8 +38,7 @@ class Pokole {
     if (!config.db.database) throw new Error(Constants.DB.NO_DATABASE);
 
     // URLs
-    if (!config.frontURL) throw new Error(Constants.NO_FRONT_URL);
-    if (!config.backURL) throw new Error(Constants.NO_BACK_URL);
+    if (!config.URL) throw new Error(Constants.NO_URL);
 
     // Registration
     if (!config.registration) config.registration = true;
@@ -54,18 +52,16 @@ class Pokole {
     // Set the default length of the characters used in the shortlink, if not provided by the user
     if (!config.shortLength) config.shortLength = 12;
 
-    // Set the default server ports, if not provided by the user
+    // Set the default server port, if not provided by the user
     if (!config.server.port) config.server.port = 80;
-    if (!config.server.backendPort) config.server.backendPort = 8080;
 
     // Set default database info, if not provided by the user
     if (!config.db.port) config.db.port = 5432;
 
     this.config = config;
 
-    // Initiate the front-end and back-end servers
-    this.frontServer = express();
-    this.backServer = express();
+    // Initiate the server
+    this.server = express();
 
     // Close the database pool before the application finally exits
     // Taken from https://stackoverflow.com/a/49392671
@@ -155,30 +151,21 @@ class Pokole {
       : path.join(__dirname, "../static");
     console.info(Constants.SERVE_STATIC(directory));
 
-    this.frontServer
+    this.server
       .use(serve(directory))
       .use(attachDB(this.database))
       .use(attachConfig(this.config))
-      .use("/", ShortLink)
-      .listen(this.config.server.port, () =>
-        console.info(Constants.SERVER.FRONT_START(this.config.server.port))
-      )
-      .on("error", (err) => new Error(Constants.SERVER.FRONT_ERROR(err)));
-    this.backServer
       .use(cors())
-      .use(attachDB(this.database))
-      .use(attachConfig(this.config))
       .use(json())
-      .use("/register", Register)
-      .use("/login", Login)
-      .use("/shorten", Shorten)
-      .use("/me", Me)
-      .listen(this.config.server.backendPort, () =>
-        console.info(
-          Constants.SERVER.BACK_START(this.config.server.backendPort)
-        )
+      .use("/", ShortLink)
+      .use("/api/register", Register)
+      .use("/api/login", Login)
+      .use("/api/shorten", Shorten)
+      .use("/api/me", Me)
+      .listen(this.config.server.port, () =>
+        console.info(Constants.SERVER_START(this.config.server.port))
       )
-      .on("error", (err) => new Error(Constants.SERVER.BACK_ERROR(err)));
+      .on("error", (err) => new Error(Constants.SERVER_ERROR(err)));
   }
 }
 
@@ -206,10 +193,8 @@ interface PokoleConfiguration {
   server: PokoleServerOptions;
   /** The salt number bcrypt should use */
   bcrypt?: number;
-  /** The URL the front-end of Pokole is accessible from */
-  frontURL: string;
-  /** The URL the back-end of Pokole is accessible from */
-  backURL: string;
+  /** The URL Pokole is accessible from */
+  URL: string;
   /** The length of the characters used in the shortlink */
   shortLength?: number;
   /** The JWT (JSON Web Token) secret you want to use - make sure to keep this private, as this is what's used to encrypt user tokens */
@@ -219,10 +204,8 @@ interface PokoleConfiguration {
 }
 
 interface PokoleServerOptions {
-  /** The port the front-end part of Pokole should run on */
+  /** The port Pokole should run on */
   port: number;
-  /** The port the back-end part of Pokole should run on */
-  backendPort: number;
 }
 
 interface Database {

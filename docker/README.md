@@ -17,6 +17,8 @@ services:
     #    target: /dev/shm
     #    tmpfs:
     #      size: 134217728 # 128*2^20 bytes :  128Mb
+    volumes:
+      - postgres:/var/lib/postgresql
     environment:
       POSTGRES_USER: postgres
       # Change this
@@ -32,11 +34,11 @@ services:
       # Change this
       DB_PASSWORD: password
       DB_HOST: postgres
-      DB_NAME: postgres
+      DB_NAME: pokole
       DB_PORT: 5432
       # Change these two
       FRONT_URL: localhost
-      BACK_URL: localhost:8080
+      BACK_URL: localhost:8080 # This is your API endpoint
       FRONT_PORT: 80
       BACK_PORT: 8080
       # Change this
@@ -46,11 +48,14 @@ services:
       # Change in case you want to expose to other ports
       - 80:80
       - 8080:8080
-    # If you want to host your own static files (or Pokole Web)
+    # If you want to host your own web UI instead of Pokole Web
     # volumes:
     #   - /path/to/static/files:/pokole/static
     depends_on:
       - postgres
+
+volumes:
+  - postgres:
 ```
 
 ### Info
@@ -69,4 +74,4 @@ services:
 
 # Manually build
 
-Navigate to this folder and build the Docker image using: `docker build -t pokole .`
+From parent directory: `docker build -t pokole -f docker/Dockerfile .`

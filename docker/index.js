@@ -1,4 +1,4 @@
-const { Pokole } = require("pokole");
+const { Pokole } = require("./dist/index");
 
 const config = {
   db: {
@@ -8,11 +8,9 @@ const config = {
     database: process.env.DB_NAME || process.env.DB_USER,
     port: Number(process.env.DB_PORT) || 5432,
   },
-  frontURL: process.env.FRONT_URL || "localhost",
-  backURL: process.env.BACK_URL || "localhost:8080",
+  URL: process.env.URL || "localhost",
   server: {
-    port: Number(process.env.FRONT_PORT) || 80,
-    backendPort: Number(process.env.BACK_PORT) || 8080,
+    port: Number(process.env.PORT) || 80,
   },
   jwtSecret: process.env.JWT,
   registration:

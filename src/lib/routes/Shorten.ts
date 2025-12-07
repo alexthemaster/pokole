@@ -74,7 +74,7 @@ async function insertURL(
 ): Promise<Response> {
   try {
     await DBQueries.addLink(req.db, userID, url, shortlink);
-    return res.json(Constants.SUCCESS_ADD_URL(shortlink, req.config.frontURL));
+    return res.json(Constants.SUCCESS_ADD_URL(shortlink, req.config.URL));
   } catch {
     return res
       .status(500)
