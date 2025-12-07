@@ -36,18 +36,15 @@ services:
       DB_HOST: postgres
       DB_NAME: pokole
       DB_PORT: 5432
-      # Change these two
-      FRONT_URL: localhost
-      BACK_URL: localhost:8080 # This is your API endpoint
-      FRONT_PORT: 80
-      BACK_PORT: 8080
+      # Change this
+      FRONT_URL: http://change.me
+      PORT: 80
       # Change this
       JWT: password
       REGISTRATION: true
     ports:
-      # Change in case you want to expose to other ports
+      # Change in case you want to expose to other port
       - 80:80
-      - 8080:8080
     # If you want to host your own web UI instead of Pokole Web
     # volumes:
     #   - /path/to/static/files:/pokole/static
@@ -60,13 +57,9 @@ volumes:
 
 ### Info
 
-`FRONT_URL` is the URL the user accesses
+`URL` is the URL the user accesses
 
-`BACK_URL` is the URL the API will respond on
-
-`FRONT_PORT` is the port the front-end server should run on
-
-`BACK_PORT` is the port the back-end should run on
+`PORT` is the port the server should run on
 
 `JWT` provide a strong password to encrypt authentication tokens with
 
