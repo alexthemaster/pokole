@@ -18,7 +18,7 @@ Pokole stands for 'short' in Hawaiian.
 
 ## 🐳 Docker
 
-Using Pokole in Docker is easier, faster and more convenient! Head over to [Docker Hub](https://hub.docker.com/r/alexthemaster/pokole) for more information. Uses [https://github.com/alexthemaster/pokole-web/](Pokole Web) as its Web UI
+Using Pokole in Docker is easier, faster and more convenient! Head over to [Docker Hub](https://hub.docker.com/r/alexthemaster/pokole) for more information. Web UI built in!
 
 ## 📝 Requirements
 
@@ -54,15 +54,11 @@ const config = {
     // The port PostgreSQL uses (defaults to 5432)
     port: 5432,
   },
-  // The URL the front-end of Pokole can be accessed from
-  frontURL: "localhost",
-  // The URL the back-end of Pokole can be accessed from
-  backURL: "localhost:8080",
+  // The URL the Pokole can be accessed from
+  URL: "localhost",
   server: {
-    //  The port the front-end part of Pokole should run on, (defaults to 80)
+    //  The port Pokole should run on, (defaults to 80)
     port: 80,
-    // The port the back-end part of Pokole should run on, (defaults to 8080)
-    backendPort: 8080,
   },
   // The JWT (JSON Web Token) secret you want to use - make sure to keep this private, as this is what's used to encrypt user tokens
   jwtSecret: "33HdAiM$4zGs",
@@ -80,9 +76,7 @@ new Pokole(config).start();
 
 If you want to host static files alongside Pokole, create a folder called `static` in the folder above and Pokole will serve the files inside this folder.
 
-The default static files can be found [here](/src/static). Don't forget to include a 404 folder with an `index.html` file (this is where users get redirected if a short URL does not exist!)
-
-[Pokole-Web](https://github.com/alexthemaster/pokole-web) is a webpage you can use to manage your URLs.
+[Pokole-Web](https://github.com/alexthemaster/pokole-web) is the default web dashboard included in the Docker build.
 
 ## 🕸 Routes / API
 
