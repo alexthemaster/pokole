@@ -37,7 +37,7 @@ services:
       DB_NAME: pokole
       DB_PORT: 5432
       # Change this
-      FRONT_URL: http://change.me
+      URL: http://change.me
       PORT: 80
       # Change this
       JWT: password
